@@ -2,13 +2,9 @@
 
 Egy egyszerű Chrome bővítmény, ami automatikusan kereshetővé konvertálja az összes HTML `<select>` elemet a weboldalon a Choices.js könyvtár segítségével.
 
-## Legfrissebb változások (v3.2.0)
+## Verzió
 
-- ✨ CSS teljes átdolgozása - jobb kompatibilitás az eredeti select-ekkel
-- 🎨 Eltávolítva a felesleges "Kattints a kiválasztáshoz" szöveg
-- 📐 Dropdown szélesség korlátlan - csak a képernyő széle korlátozza
-- 🔧 Optimalizált padding és magasság értékek
-- 💪 `display: inline-block` és `margin: 0` a jobb megjelenésért
+**v1.0.0** - Első hivatalos kiadás
 
 Részletes változások: [CHANGELOG.md](CHANGELOG.md)
 
@@ -214,76 +210,28 @@ Ha a bővítmény nem működik:
 
 Ez a projekt oktatási és demonstrációs célokra készült.
 
-## Változások története (Changelog)
+## Változások története
 
-### v3.2.0 - CSS finomhangolás
-**Dátum:** 2025-01-13
+A teljes változási naplót lásd: [CHANGELOG.md](CHANGELOG.md)
 
-**Változások:**
-- CSS egyszerűsítés és optimalizálás
-- `itemSelectText` értéke üres stringre módosítva (nem jelenik meg felesleges szöveg)
-- Dropdown szélesség korlátlan, csak a képernyő széle korlátozza
-- `white-space: nowrap` a dropdown elemeken
-- Padding és magasság javítások
+### v1.0.0 - Első hivatalos kiadás (2025-01-14)
 
-**CSS módosítások:**
-- `.choices`: `display: inline-block`, `margin: 0`
-- `.choices__inner`: `padding: 0`, `height: auto`, `line-height: 1rem`, `width: auto`
-- `.choices__list--single`: `padding: 0px 4px`
-- `.choices__list--dropdown`: `max-width: none`, `white-space: nowrap`
+**Funkciók:**
+- Natív HTML select elemek automatikus kereshetővé tétele
+- 10 nyelv támogatása (hu, en, de, fr, es, it, pt, ru, ja, zh_CN)
+- Beállítások oldal domain szűréssel és wildcard támogatással
+- Debug mód fejlesztőknek
+- Dinamikus tartalom támogatás (AJAX, SPA-k)
+- iframe támogatás (korlátozásokkal)
+- Tiszta, modern UI
 
-### v3.1.0 - Choices.js betöltés frame-ekbe
-**Főbb javítások:**
-- Choices.js dinamikus betöltése frame/iframe-ekbe
-- `all_frames: true` hozzáadva a manifesthez
-- `web_accessible_resources` konfiguráció frame hozzáféréshez
-- Frame variable duplication hiba javítása
-
-### v3.0.0 - Frame/Iframe támogatás
-**Új funkciók:**
-- Frame és iframe támogatás rekurzív feldolgozással
-- JSF/RichFaces AJAX kompatibilitás
-- XMLHttpRequest globális monitorozás
-- MutationObserver minden frame-ben
-
-**Technikai implementáció:**
-- `processFrame()` funkció frame-ek kezelésére
-- JSF AJAX hook (`jsf.ajax.request`)
-- RichFaces AJAX event listener-ek
-- Többszintű retry mechanizmus AJAX hívások után
-
-### v2.0.0 - Domain szűrés és beállítások
-**Új funkciók:**
-- Beállítások oldal (`options.html`, `options.js`)
-- Domain whitelist wildcard támogatással (`*.example.com`)
-- Chrome Storage API integráció
-- "Minden weboldalon" toggle kapcsoló
-
-**Manifest változások:**
-- `storage` és `tabs` engedélyek hozzáadva
-- `options_page` konfiguráció
-
-### v1.2.0 - Dinamikus elemek támogatása
-**Javítások:**
-- MutationObserver debouncing mechanizmus (10ms)
-- Többszintű retry logika (50ms, 150ms, 300ms, 500ms)
-- Jobb dinamikus elem detektálás
-- WeakSet használata konvertált elemek nyilvántartására
-
-### v1.1.0 - CSS magasság javítások
-**Javítások:**
-- `custom-styles.css` létrehozása
-- Eredeti select magasság megőrzése
-- Font méret és stílus öröklés
-- Box-sizing beállítások
-
-### v1.0.0 - Kezdeti verzió
-**Alapfunkciók:**
-- Choices.js v10.2.0 integráció
-- Manifest V3 Chrome extension
-- Alap select konverzió
-- Magyar nyelvű felület
-- Teszt HTML oldalak
+**Technikai:**
+- Chrome Extension Manifest V3
+- Choices.js v11.1.0
+- MutationObserver dinamikus elemek figyeléséhez
+- Chrome Storage Sync API
+- WeakSet memória-hatékony követéshez
+- Teljes i18n támogatás
 
 ## Ismert problémák és megoldások
 

@@ -1,91 +1,40 @@
 # Changelog
 
-## [3.6.4] - 2025-01-13
+All notable changes to Searchable Select will be documented in this file.
 
-### Changed
-- Eltávolítva a verzió log a konzoból a tisztább megjelenés érdekében
-- A bővítmény most teljesen csendben működik, hacsak nincs hiba vagy be nincs kapcsolva a debug mód
+## [1.0.0] - 2025-01-14
 
-## [3.6.3] - 2025-01-13
+### Initial Release
 
-### Changed
-- Eltávolítva a W3Schools-specifikus automatikus debug logging
-- Debug logok most csak akkor jelennek meg, ha be van kapcsolva a debug mód az options oldalon
+First official release of Searchable Select Chrome Extension.
 
-## [3.6.2] - 2025-01-13
+#### Features
+- 🔍 **Automatic search enhancement** for all native HTML `<select>` elements
+- 🌍 **10 languages supported**: Hungarian, English, German, French, Spanish, Italian, Portuguese, Russian, Japanese, Chinese
+- ⚙️ **Settings page** with domain filtering and wildcard support (e.g., `*.example.com`)
+- 🐛 **Debug mode** for troubleshooting
+- ⚡ **Dynamic content support** via MutationObserver
+- 🖼️ **iframe support** (with limitations in strict CSP environments)
+- 🎨 **Clean, modern UI** that matches native select appearance
+- 💾 **Local storage only** - no data collection or external communication
 
-### Changed
-- Összes console.log átalakítva debugLog-ra a tisztább konzol kimenet érdekében
-- Debug üzenetek most csak akkor jelennek meg, ha engedélyezve van a debug mód
-
-## [3.6.1] - 2025-01-13
-
-### Fixed
-- Javítva a frameWindow is not defined hiba az iframe feldolgozás során
-- Hozzáadva a hiányzó frameWindow változó deklaráció
-
-## [3.6.0] - 2025-01-13
-
-### Changed
-- **BREAKING CHANGE**: Új megközelítés az iframe kezelésre
-- NEM injektáljuk többé a Choices.js-t az iframe-ekbe (CSP korlátozások miatt)
-- Csak a CSS-t injektáljuk az iframe-ekbe
-- A parent window Choices osztályát használjuk az iframe select elemein
-
-### Known Issues
-- **Strict CSP korlátok**: Az iframe-ekben lévő select elemek nem működnek teljesen strict Content Security Policy esetén (pl. W3Schools Tryit Editor)
-- A select elemek konvertálódnak, de a dropdown nem nyílik meg click eseményre cross-document környezetben
-- Ez egy fundamental limitation: a Choices.js nem támogatja a cross-document használatot
-
-## [3.5.9] - 2025-01-13
-
-### Attempted
-- Blob URL használata a Choices.js injektálásához az iframe-ekbe
-- CSP által blokkolva
-
-## [3.5.8] - 2025-01-13
-
-### Attempted
-- Inline script injektálás az iframe-ekbe
-- CSP által blokkolva
-
-## [3.5.7] - 2025-01-13
-
-### Attempted
-- Polling mechanizmus a Choices osztály létrejöttének ellenőrzésére (50x20ms)
-- Nem oldotta meg az iframe script betöltési problémát
-
-## [3.5.6] - 2025-01-13
-
-### Attempted
-- 200ms timeout növelés a script végrehajtáshoz
-- Nem volt elég
-
-## [3.4.4] - 2025-01-13
-
-### Changed
-- searchResultLimit átállítva Infinity-re (teszt céljából)
-- Lehetővé teszi az összes találat megjelenítését a keresésben
-
-## [Korábbi verziók]
-
-### Features
-- HTML select elemek automatikus konvertálása kereshetővé a Choices.js segítségével
-- Beállítások oldal domain-specifikus engedélyekkel
-- Debug mód kapcsoló
-- MutationObserver dinamikus tartalom figyeléshez
-- JSF/RichFaces/PrimeFaces AJAX kompatibilitás
-- iframe támogatás (korlátozásokkal)
-- Manifest V3 támogatás
-
-### Korlátozások
-1. **Strict CSP környezetek**: Nem működik teljesen iframe-ekben strict Content Security Policy esetén
-2. **Cross-document**: A Choices.js event handling nem működik cross-document esetben
-3. **Cross-origin iframe-ek**: Nem férhetünk hozzá cross-origin iframe tartalmához (CORS védelem)
-
-### Technikai részletek
+#### Technical Details
 - Chrome Extension Manifest V3
 - Choices.js v11.1.0
-- Content scripts minden frame-ben (all_frames: true)
-- MutationObserver dinamikus elem detektáláshoz
-- Chrome storage API beállítások mentéséhez
+- Content scripts run in all frames (`all_frames: true`)
+- MutationObserver for dynamic element detection
+- Chrome Storage API for settings persistence
+- WeakSet for memory-efficient element tracking
+- Full i18n support with `chrome.i18n` API
+
+#### Known Limitations
+1. **Strict CSP environments**: Limited functionality in iframes with strict Content Security Policy (e.g., W3Schools Tryit Editor)
+2. **Cross-document events**: Choices.js event handling doesn't work across document boundaries
+3. **Cross-origin iframes**: Cannot access cross-origin iframe content (CORS protection)
+4. **Native select only**: Works only with native HTML `<select>` elements, not custom dropdown libraries
+
+#### Privacy
+- No data collection
+- No external communication
+- Settings stored locally only
+- No analytics or tracking

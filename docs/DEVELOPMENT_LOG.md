@@ -3,9 +3,12 @@
 ## 📋 Projekt Áttekintés
 
 **Név**: Searchable Select
-**Verzió**: 1.0.0
+**Verzió**: 1.0.0 (Első hivatalos kiadás)
+**Dátum**: 2025-01-14
 **Típus**: Chrome Extension (Manifest V3)
 **Cél**: Klasszikus HTML `<select>` elemek átalakítása kereshetővé
+
+> **Megjegyzés**: Ez a fejlesztési napló dokumentálja a teljes fejlesztési folyamatot, beleértve a korai kísérleti verziókat is. A végleges kiadott verzió az 1.0.0, amely az első hivatalos, nyilvánosan elérhető verzió.
 
 ---
 
@@ -35,15 +38,19 @@
 
 ## 📅 Fejlesztési Kronológia
 
-### Kezdeti Állapot
-- Már létező bővítmény volt korábbi munkamenetből
-- `searchResultLimit: 1000` volt beállítva
-- W3Schools Tryit Editor iframe-jében nem működött
-- Csak magyar nyelv volt
-- Nem volt donate gomb
-- Debug logok mindig megjelentek
+### Fejlesztési Folyamat Áttekintése
 
-### Első Lépések
+A projekt fejlesztése során számos iteráción ment keresztül. Bár belső verziószámok (v3.x.x) voltak használatban a fejlesztés során, ezek csak kísérleti változatok voltak. **Az 1.0.0 az első hivatalos, stabil és publikált verzió**.
+
+### Kezdeti Állapot (Korai kísérleti fázis)
+- Korábbi munkamenetből megörökölt alapkód
+- `searchResultLimit: 1000` volt beállítva
+- W3Schools Tryit Editor iframe-jében nem működött teljesen
+- Csak magyar nyelv támogatás
+- Nincs donate funkció
+- Debug logok alapértelmezetten láthatóak voltak
+
+### Fejlesztési Lépések
 
 #### 1. Infinity limit teszt
 - `searchResultLimit` átállítva `1000` → `Infinity`
@@ -74,8 +81,9 @@ Többszöri próbálkozás az iframe támogatás javítására:
 - Gradient stílusú gombok hover effekttel
 - "⭐ Popular" badge a $5-ös gombon
 
-#### 5. Verzió reset
-- Verzió `3.6.4` → `1.0.0` (official release)
+#### 5. Verzió finalizálás
+- Belső fejlesztési verziók helyett hivatalos `1.0.0` kiadás
+- Ez az első nyilvánosan elérhető, stabil verzió
 
 ### Internacionalizáció (i18n)
 
@@ -413,8 +421,8 @@ old-select-search/
 
 ## 🚀 Kiadás
 
-### v1.0.0 (2025-01-XX)
-**Első hivatalos kiadás**
+### v1.0.0 (2025-01-14)
+**Első hivatalos kiadás - GitHub és Chrome Web Store**
 
 Funkciók:
 - Natív HTML select elemek kereshetővé tétele
