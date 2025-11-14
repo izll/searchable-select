@@ -1,0 +1,103 @@
+/* Searchable Select - Minimális override */
+
+/* Choices container - normál méret */
+.choices {
+  font-size: inherit !important;
+  font-family: inherit !important;
+  width: auto !important;
+  display: inline-flex !important;
+  margin: 0 !important;
+  position: relative !important;
+}
+
+/* Single select belső konténer - normál padding */
+.choices__inner {
+  padding: 0 12px 0 0 !important;
+  height: auto !important;
+  line-height: 1rem !important;
+  min-height: auto !important;
+  font-size: unset !important;
+  color: #000 !important;
+  background-color: #FFF !important;
+  box-sizing: border-box !important;
+  width: auto !important;
+  max-width: 100% !important;
+  display: inline-flex !important;
+}
+
+/* Single select lista */
+.choices__list--single {
+  padding: 0px 4px 0px 4px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+/* Multi-select esetén */
+.choices[data-type*="select-multiple"] .choices__inner {
+  min-height: 44px !important;
+  padding: 7.5px !important;
+}
+
+/* Dropdown nyíl megjelenítése */
+.choices[data-type*="select-one"]::after {
+  content: "" !important;
+  border-style: solid !important;
+  border-color: #333 transparent transparent transparent !important;
+  border-width: 5px 5px 0 5px !important;
+  position: absolute !important;
+  right: 4px !important;
+  top: 50% !important;
+  margin-top: -2.5px !important;
+  pointer-events: none !important;
+  height: 0 !important;
+  width: 0 !important;
+  z-index: 10 !important;
+}
+
+/* Dropdown nyíl megfordítása amikor nyitva van */
+.choices[data-type*="select-one"].is-open::after {
+  border-color: transparent transparent #333 transparent !important;
+  border-width: 0 5px 5px 5px !important;
+  margin-top: -2.5px !important;
+}
+
+/* Dropdown lista - szélesség nincs korlátozva, csak képernyő széle */
+.choices__list--dropdown {
+  max-height: 400px !important;
+  overflow-y: auto !important;
+  width: auto !important;
+  min-width: 100% !important;
+  max-width: none !important;
+  white-space: nowrap !important;
+  background-color: #EFEFEF !important;
+  border: 1px solid #ddd !important;
+  z-index: 9999 !important;
+}
+
+/* Felfele nyíló dropdown - legyen kisebb hogy a keresőmező is látható legyen */
+.choices__list--dropdown.is-flipped {
+  max-height: 250px !important;
+}
+
+/* Dropdown elem - ne törje a sort */
+.choices__list--dropdown .choices__item {
+  padding: 4px 8px !important;
+  white-space: nowrap !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  background-color: #EFEFEF !important;
+  color: #000 !important;
+}
+
+/* Dropdown highlighted */
+.choices__list--dropdown .choices__item--selectable.is-highlighted {
+  background-color: #d0d0d0 !important;
+  color: #000 !important;
+}
+
+/* Dropdown selected item */
+.choices__list--dropdown .choices__item--selectable[aria-selected="true"] {
+  background-color: #c0c0c0 !important;
+  color: #000 !important;
+}

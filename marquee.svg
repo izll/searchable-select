@@ -1,0 +1,96 @@
+<svg width="1400" height="560" viewBox="0 0 1400 560" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="mainGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#764ba2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#667eea;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="highlightGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#f093fb;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f5576c;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="dropshadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5"/>
+      <feOffset dx="0" dy="4" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.4"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1400" height="560" fill="url(#mainGrad)"/>
+
+  <!-- Decorative circles -->
+  <circle cx="100" cy="100" r="80" fill="white" opacity="0.05"/>
+  <circle cx="1300" cy="460" r="100" fill="white" opacity="0.05"/>
+  <circle cx="200" cy="500" r="60" fill="white" opacity="0.03"/>
+  <circle cx="1250" cy="80" r="70" fill="white" opacity="0.03"/>
+
+  <!-- Main content container -->
+  <g transform="translate(120, 140)">
+    <!-- Large icon -->
+    <g transform="scale(2.5)">
+      <!-- Select box -->
+      <rect x="0" y="0" width="120" height="54" rx="8" fill="white" opacity="0.95" filter="url(#dropshadow)"/>
+      <path d="M 84 21 L 99 21 L 91.5 33 Z" fill="#667eea"/>
+      <rect x="12" y="18" width="54" height="4.5" rx="2" fill="#764ba2" opacity="0.6"/>
+      <rect x="12" y="28.5" width="36" height="4.5" rx="2" fill="#764ba2" opacity="0.4"/>
+    </g>
+
+    <!-- Search icon -->
+    <g transform="translate(10, 100) scale(2.5)">
+      <circle cx="27" cy="27" r="21" stroke="white" stroke-width="7" fill="none" filter="url(#dropshadow)"/>
+      <line x1="42" y1="42" x2="57" y2="57" stroke="white" stroke-width="7" stroke-linecap="round"/>
+      <circle cx="21" cy="21" r="6" fill="white" opacity="0.5"/>
+    </g>
+
+    <!-- Dropdown items -->
+    <g transform="translate(5, 70) scale(2.5)" opacity="0.9">
+      <rect x="0" y="0" width="108" height="12" rx="3" fill="white" opacity="0.7" filter="url(#dropshadow)"/>
+      <rect x="0" y="15" width="108" height="12" rx="3" fill="url(#highlightGrad)" opacity="0.9" filter="url(#dropshadow)"/>
+      <rect x="0" y="30" width="108" height="12" rx="3" fill="white" opacity="0.7" filter="url(#dropshadow)"/>
+    </g>
+  </g>
+
+  <!-- Text content -->
+  <g transform="translate(500, 180)">
+    <text x="0" y="0" font-family="Arial, sans-serif" font-size="72" font-weight="bold" fill="white" filter="url(#glow)">
+      Searchable Select
+    </text>
+    <text x="0" y="60" font-family="Arial, sans-serif" font-size="28" fill="white" opacity="0.95">
+      Transform HTML select elements into powerful searchable dropdowns
+    </text>
+
+    <g transform="translate(0, 120)">
+      <text x="0" y="0" font-family="Arial, sans-serif" font-size="24" fill="white" opacity="0.9">
+        ✓ Works with native HTML &lt;select&gt; tags
+      </text>
+      <text x="0" y="45" font-family="Arial, sans-serif" font-size="24" fill="white" opacity="0.9">
+        ✓ Instant search for large dropdown lists
+      </text>
+      <text x="0" y="90" font-family="Arial, sans-serif" font-size="24" fill="white" opacity="0.9">
+        ✓ Customizable domain filtering
+      </text>
+      <text x="0" y="135" font-family="Arial, sans-serif" font-size="24" fill="white" opacity="0.9">
+        ✓ Supports 10+ languages
+      </text>
+    </g>
+  </g>
+
+  <!-- Bottom tagline -->
+  <text x="700" y="520" font-family="Arial, sans-serif" font-size="20" fill="white" opacity="0.8" text-anchor="middle">
+    Make web forms easier • Save time • Find options faster
+  </text>
+</svg>

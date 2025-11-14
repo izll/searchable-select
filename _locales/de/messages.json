@@ -1,0 +1,144 @@
+{
+  "extName": {
+    "message": "Searchable Select"
+  },
+  "extDescription": {
+    "message": "Verwandelt einfache HTML-Select-Elemente in durchsuchbare Dropdowns"
+  },
+  "settingsTitle": {
+    "message": "Einstellungen"
+  },
+  "settingsSubtitle": {
+    "message": "Searchable Select Chrome-Erweiterung"
+  },
+  "developerSettings": {
+    "message": "Entwicklereinstellungen"
+  },
+  "enableDebugLogs": {
+    "message": "Debug-Logs aktivieren"
+  },
+  "debugLogsDesc": {
+    "message": "Konsolenprotokolle in der Browser-Konsole anzeigen (nur für Entwicklung)"
+  },
+  "domainFiltering": {
+    "message": "Domain-Filterung"
+  },
+  "enableAllDomains": {
+    "message": "Auf allen Websites aktivieren"
+  },
+  "enableAllDomainsDesc": {
+    "message": "Wenn deaktiviert, funktioniert nur auf angegebenen Domains"
+  },
+  "warningDomainList": {
+    "message": "Die Option \"Auf allen Websites\" ist deaktiviert. Die Erweiterung funktioniert nur auf den unten aufgeführten Domains."
+  },
+  "domainListInfo": {
+    "message": "Geben Sie Domainnamen ein, einen pro Zeile. Sie können Platzhalterzeichen (*) verwenden.<br>Beispiel: *.google.com enthält alle Google-Subdomains."
+  },
+  "allowedDomains": {
+    "message": "Erlaubte Domains"
+  },
+  "domainCount": {
+    "message": "$COUNT$ Domain(s)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "domainPlaceholder": {
+    "message": "beispiel.de\n*.google.de\ngithub.com\nstackoverflow.com"
+  },
+  "domainExample": {
+    "message": "Beispielformate: beispiel.de, *.beispiel.de, subdomain.beispiel.de"
+  },
+  "btnSave": {
+    "message": "Speichern"
+  },
+  "btnReset": {
+    "message": "Zurücksetzen"
+  },
+  "supportDeveloper": {
+    "message": "Unterstütze den Entwickler"
+  },
+  "supportMessage": {
+    "message": "Wenn Sie diese Erweiterung nützlich finden, spendieren Sie mir einen Kaffee! 😊"
+  },
+  "footerText": {
+    "message": "Made with ❤️"
+  },
+  "saveSuccess": {
+    "message": "Einstellungen erfolgreich gespeichert! 🎉"
+  },
+  "saveError": {
+    "message": "Fehler beim Speichern der Einstellungen: $ERROR$",
+    "placeholders": {
+      "error": {
+        "content": "$1"
+      }
+    }
+  },
+  "domainRequired": {
+    "message": "Sie müssen mindestens eine Domain angeben oder die Option \"Auf allen Websites\" aktivieren!"
+  },
+  "resetConfirm": {
+    "message": "Möchten Sie die Standardeinstellungen wirklich wiederherstellen?"
+  },
+  "resetSuccess": {
+    "message": "Standardeinstellungen wiederhergestellt!"
+  },
+  "searchPlaceholder": {
+    "message": "Suchen..."
+  },
+  "noResults": {
+    "message": "Keine Ergebnisse gefunden"
+  },
+  "noChoices": {
+    "message": "Keine Auswahlmöglichkeiten verfügbar"
+  },
+  "loading": {
+    "message": "Lädt..."
+  },
+  "languageSettings": {
+    "message": "Spracheinstellungen"
+  },
+  "selectLanguage": {
+    "message": "Sprache wählen"
+  },
+  "selectLanguageDesc": {
+    "message": "Wählen Sie die Sprache der Erweiterung"
+  },
+  "languageHungarian": {
+    "message": "Magyar"
+  },
+  "languageEnglish": {
+    "message": "English"
+  },
+  "languageGerman": {
+    "message": "Deutsch"
+  },
+  "languageFrench": {
+    "message": "Français"
+  },
+  "languageSpanish": {
+    "message": "Español"
+  },
+  "languageItalian": {
+    "message": "Italiano"
+  },
+  "languagePortuguese": {
+    "message": "Português"
+  },
+  "languageRussian": {
+    "message": "Русский"
+  },
+  "languageJapanese": {
+    "message": "日本語"
+  },
+  "languageChinese": {
+    "message": "中文"
+  },
+  "languageChangedReload": {
+    "message": "Spracheinstellung wurde geändert. Möchten Sie die Seite neu laden?"
+  }
+}

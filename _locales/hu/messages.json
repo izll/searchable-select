@@ -1,0 +1,144 @@
+{
+  "extName": {
+    "message": "Searchable Select"
+  },
+  "extDescription": {
+    "message": "Klasszikus HTML select elemeket alakít át kereshetővé. Csak natív <select> tagekkel működik."
+  },
+  "settingsTitle": {
+    "message": "Beállítások"
+  },
+  "settingsSubtitle": {
+    "message": "Searchable Select Chrome Bővítmény"
+  },
+  "developerSettings": {
+    "message": "Fejlesztői beállítások"
+  },
+  "enableDebugLogs": {
+    "message": "Debug logok engedélyezése"
+  },
+  "debugLogsDesc": {
+    "message": "Console logok megjelenítése a böngésző konzoljában (csak fejlesztéshez)"
+  },
+  "domainFiltering": {
+    "message": "Domain szűrés"
+  },
+  "enableAllDomains": {
+    "message": "Minden weboldalon engedélyezve"
+  },
+  "enableAllDomainsDesc": {
+    "message": "Ha kikapcsolod, csak a megadott domaineken fog működni"
+  },
+  "warningDomainList": {
+    "message": "A \"Minden weboldalon\" opció ki van kapcsolva. A bővítmény csak az alábbi domaineken fog működni."
+  },
+  "domainListInfo": {
+    "message": "Adj meg domain neveket soronként. Használhatsz wildcard (*) karaktert is.<br>Példa: *.google.com minden google aldomaint tartalmaz."
+  },
+  "allowedDomains": {
+    "message": "Engedélyezett domainek"
+  },
+  "domainCount": {
+    "message": "$COUNT$ domain",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "domainPlaceholder": {
+    "message": "example.com\n*.google.com\ngithub.com\nstackoverflow.com"
+  },
+  "domainExample": {
+    "message": "Példa formátumok: example.com, *.example.com, subdomain.example.com"
+  },
+  "btnSave": {
+    "message": "Mentés"
+  },
+  "btnReset": {
+    "message": "Alapértelmezett"
+  },
+  "supportDeveloper": {
+    "message": "Support the Developer"
+  },
+  "supportMessage": {
+    "message": "Ha hasznosnak találod ezt a bővítményt, támogass egy kávéval! 😊"
+  },
+  "footerText": {
+    "message": "Made with ❤️"
+  },
+  "saveSuccess": {
+    "message": "Beállítások sikeresen mentve! 🎉"
+  },
+  "saveError": {
+    "message": "Hiba történt a mentés során: $ERROR$",
+    "placeholders": {
+      "error": {
+        "content": "$1"
+      }
+    }
+  },
+  "domainRequired": {
+    "message": "Legalább egy domaint meg kell adnod, vagy kapcsold be a \"Minden weboldalon\" opciót!"
+  },
+  "resetConfirm": {
+    "message": "Biztosan visszaállítod az alapértelmezett beállításokat?"
+  },
+  "resetSuccess": {
+    "message": "Alapértelmezett beállítások visszaállítva!"
+  },
+  "searchPlaceholder": {
+    "message": "Keresés..."
+  },
+  "noResults": {
+    "message": "Nincs találat"
+  },
+  "noChoices": {
+    "message": "Nincs választható opció"
+  },
+  "loading": {
+    "message": "Betöltés..."
+  },
+  "languageSettings": {
+    "message": "Nyelv beállítások"
+  },
+  "selectLanguage": {
+    "message": "Válassz nyelvet"
+  },
+  "selectLanguageDesc": {
+    "message": "A bővítmény nyelvének kiválasztása"
+  },
+  "languageHungarian": {
+    "message": "Magyar"
+  },
+  "languageEnglish": {
+    "message": "English"
+  },
+  "languageGerman": {
+    "message": "Deutsch"
+  },
+  "languageFrench": {
+    "message": "Français"
+  },
+  "languageSpanish": {
+    "message": "Español"
+  },
+  "languageItalian": {
+    "message": "Italiano"
+  },
+  "languagePortuguese": {
+    "message": "Português"
+  },
+  "languageRussian": {
+    "message": "Русский"
+  },
+  "languageJapanese": {
+    "message": "日本語"
+  },
+  "languageChinese": {
+    "message": "中文"
+  },
+  "languageChangedReload": {
+    "message": "A nyelv beállítás megváltozott. Szeretnéd újratölteni az oldalt?"
+  }
+}

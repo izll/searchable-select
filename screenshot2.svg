@@ -1,0 +1,124 @@
+<svg width="1280" height="800" viewBox="0 0 1280 800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="settingsBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+    <filter id="cardShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="8"/>
+      <feOffset dx="0" dy="4" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.3"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1280" height="800" fill="url(#settingsBg)"/>
+
+  <!-- Settings card -->
+  <g transform="translate(240, 80)">
+    <rect width="800" height="640" rx="12" fill="white" filter="url(#cardShadow)"/>
+
+    <!-- Header -->
+    <rect width="800" height="100" rx="12" fill="url(#settingsBg)"/>
+    <text x="400" y="50" font-family="Arial" font-size="32" font-weight="bold" fill="white" text-anchor="middle">
+      ⚙️ Settings
+    </text>
+    <text x="400" y="78" font-family="Arial" font-size="16" fill="white" opacity="0.9" text-anchor="middle">
+      Searchable Select Chrome Extension
+    </text>
+
+    <!-- Content -->
+    <g transform="translate(40, 130)">
+      <!-- Language Section -->
+      <text x="0" y="0" font-family="Arial" font-size="20" font-weight="600" fill="#333">
+        🌐 Language Settings
+      </text>
+
+      <rect x="0" y="15" width="720" height="90" rx="8" fill="#f8f9fa"/>
+
+      <g transform="translate(20, 35)">
+        <text x="0" y="0" font-family="Arial" font-size="15" font-weight="500" fill="#333">
+          Select Language
+        </text>
+        <text x="0" y="20" font-family="Arial" font-size="13" fill="#666">
+          Choose the extension language
+        </text>
+
+        <!-- Language dropdown -->
+        <rect x="0" y="35" width="680" height="44" rx="8" fill="white" stroke="#e0e0e0" stroke-width="2"/>
+        <text x="15" y="62" font-family="Arial" font-size="15" fill="#333">English</text>
+        <path d="M 650 52 L 660 52 L 655 60 Z" fill="#667eea"/>
+      </g>
+
+      <!-- Domain Filtering Section -->
+      <g transform="translate(0, 150)">
+        <text x="0" y="0" font-family="Arial" font-size="20" font-weight="600" fill="#333">
+          🌍 Domain Filtering
+        </text>
+
+        <rect x="0" y="15" width="720" height="80" rx="8" fill="#f8f9fa"/>
+
+        <g transform="translate(20, 35)">
+          <text x="0" y="0" font-family="Arial" font-size="15" font-weight="500" fill="#333">
+            Enable on all websites
+          </text>
+          <text x="0" y="20" font-family="Arial" font-size="13" fill="#666">
+            If disabled, only works on specified domains
+          </text>
+
+          <!-- Toggle switch (ON) -->
+          <rect x="620" y="-5" width="60" height="30" rx="15" fill="#667eea"/>
+          <circle cx="655" cy="10" r="12" fill="white"/>
+        </g>
+      </g>
+
+      <!-- Developer Settings Section -->
+      <g transform="translate(0, 280)">
+        <text x="0" y="0" font-family="Arial" font-size="20" font-weight="600" fill="#333">
+          🔧 Developer Settings
+        </text>
+
+        <rect x="0" y="15" width="720" height="80" rx="8" fill="#f8f9fa"/>
+
+        <g transform="translate(20, 35)">
+          <text x="0" y="0" font-family="Arial" font-size="15" font-weight="500" fill="#333">
+            Enable debug logs
+          </text>
+          <text x="0" y="20" font-family="Arial" font-size="13" fill="#666">
+            Show console logs in browser console
+          </text>
+
+          <!-- Toggle switch (OFF) -->
+          <rect x="620" y="-5" width="60" height="30" rx="15" fill="#ccc"/>
+          <circle cx="635" cy="10" r="12" fill="white"/>
+        </g>
+      </g>
+
+      <!-- Buttons -->
+      <g transform="translate(0, 400)">
+        <!-- Save button -->
+        <rect x="0" y="0" width="350" height="48" rx="8" fill="url(#settingsBg)"/>
+        <text x="175" y="32" font-family="Arial" font-size="16" font-weight="600" fill="white" text-anchor="middle">
+          💾 Save
+        </text>
+
+        <!-- Reset button -->
+        <rect x="370" y="0" width="350" height="48" rx="8" fill="#f5f5f5"/>
+        <text x="545" y="32" font-family="Arial" font-size="16" font-weight="600" fill="#333" text-anchor="middle">
+          🔄 Reset to Default
+        </text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Bottom caption -->
+  <text x="640" y="760" font-family="Arial" font-size="18" fill="white" text-anchor="middle" opacity="0.95">
+    Works with native HTML select tags • 10+ languages • Domain control
+  </text>
+</svg>

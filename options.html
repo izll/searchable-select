@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="hu" data-i18n-title="settingsTitle">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Searchable Select - Settings</title>
+    <script src="i18n-manager.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section h2 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .toggle-label {
+            font-size: 15px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .toggle-description {
+            font-size: 13px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        /* Toggle Switch */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .3s;
+            border-radius: 26px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #667eea;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #1565c0;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #856404;
+            display: none;
+        }
+
+        .warning-box.show {
+            display: block;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            color: #555;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        textarea:disabled {
+            background: #f5f5f5;
+            cursor: not-allowed;
+        }
+
+        .example {
+            font-size: 12px;
+            color: #777;
+            margin-top: 8px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .status-message {
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+            display: none;
+        }
+
+        .status-message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .status-message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #999;
+            font-size: 13px;
+            border-top: 1px solid #eee;
+        }
+
+        .domain-count {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .language-select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 500;
+            background: white;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        .language-select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        /* Donate buttons */
+        .donate-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .donate-btn {
+            flex: 1;
+            padding: 14px 20px;
+            background: white;
+            border: 2px solid #667eea;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .donate-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .donate-btn-popular {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            position: relative;
+        }
+
+        .donate-btn-popular::before {
+            content: "⭐ Popular";
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #ffc107;
+            color: #333;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .donate-btn-popular:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            transform: translateY(-3px) scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 data-i18n="settingsTitle">⚙️ Beállítások</h1>
+            <p data-i18n="settingsSubtitle">Searchable Select Chrome Bővítmény</p>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <h2 data-i18n="languageSettings">🌐 Nyelv beállítások</h2>
+
+                <div class="toggle-container" style="flex-direction: column; align-items: stretch;">
+                    <div style="margin-bottom: 10px;">
+                        <div class="toggle-label" data-i18n="selectLanguage">Válassz nyelvet</div>
+                        <div class="toggle-description" data-i18n="selectLanguageDesc">A bővítmény nyelvének kiválasztása</div>
+                    </div>
+                    <select id="languageSelect" class="language-select">
+                        <option value="hu" data-i18n="languageHungarian">Magyar</option>
+                        <option value="en" data-i18n="languageEnglish">English</option>
+                        <option value="de" data-i18n="languageGerman">Deutsch</option>
+                        <option value="fr" data-i18n="languageFrench">Français</option>
+                        <option value="es" data-i18n="languageSpanish">Español</option>
+                        <option value="it" data-i18n="languageItalian">Italiano</option>
+                        <option value="pt" data-i18n="languagePortuguese">Português</option>
+                        <option value="ru" data-i18n="languageRussian">Русский</option>
+                        <option value="ja" data-i18n="languageJapanese">日本語</option>
+                        <option value="zh_CN" data-i18n="languageChinese">中文</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 data-i18n="developerSettings">🔧 Fejlesztői beállítások</h2>
+
+                <div class="toggle-container">
+                    <div>
+                        <div class="toggle-label" data-i18n="enableDebugLogs">Debug logok engedélyezése</div>
+                        <div class="toggle-description" data-i18n="debugLogsDesc">Console logok megjelenítése a böngésző konzoljában (csak fejlesztéshez)</div>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="enableDebugLogs">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 data-i18n="domainFiltering">🌍 Domain szűrés</h2>
+
+                <div class="toggle-container">
+                    <div>
+                        <div class="toggle-label" data-i18n="enableAllDomains">Minden weboldalon engedélyezve</div>
+                        <div class="toggle-description" data-i18n="enableAllDomainsDesc">Ha kikapcsolod, csak a megadott domaineken fog működni</div>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="enableAllDomains" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div id="domainListSection">
+                    <div class="warning-box" id="warningBox">
+                        <span data-i18n="warningDomainList">⚠️ A "Minden weboldalon" opció ki van kapcsolva. A bővítmény csak az alábbi domaineken fog működni.</span>
+                    </div>
+
+                    <div class="info-box" data-i18n="domainListInfo">
+                        💡 Adj meg domain neveket soronként. Használhatsz wildcard (*) karaktert is.<br>
+                        Példa: *.google.com minden google aldomaint tartalmaz.
+                    </div>
+
+                    <label for="domainList">
+                        <span data-i18n="allowedDomains">Engedélyezett domainek</span> <span class="domain-count" id="domainCount">0 domain</span>
+                    </label>
+                    <textarea
+                        id="domainList"
+                        data-i18n="domainPlaceholder"
+                    ></textarea>
+                    <div class="example" data-i18n="domainExample">
+                        Példa formátumok: example.com, *.example.com, subdomain.example.com
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="btn-primary" id="saveBtn"><span data-i18n="btnSave">💾 Mentés</span></button>
+                <button class="btn-secondary" id="resetBtn"><span data-i18n="btnReset">🔄 Alapértelmezett</span></button>
+            </div>
+
+            <div class="status-message" id="statusMessage"></div>
+
+            <div class="section" style="margin-top: 40px; border-top: 2px solid #eee; padding-top: 30px;">
+                <h2 data-i18n="supportDeveloper">☕ Support the Developer</h2>
+                <div class="info-box" style="background: #f0f7ff; border-color: #667eea;" data-i18n="supportMessage">
+                    Ha hasznosnak találod ezt a bővítményt, támogass egy kávéval! 😊
+                </div>
+                <div class="donate-buttons">
+                    <a href="https://www.paypal.com/paypalme/izll81/1USD" target="_blank" class="donate-btn">$1</a>
+                    <a href="https://www.paypal.com/paypalme/izll81/2USD" target="_blank" class="donate-btn">$2</a>
+                    <a href="https://www.paypal.com/paypalme/izll81/5USD" target="_blank" class="donate-btn donate-btn-popular">$5</a>
+                    <a href="https://www.paypal.com/paypalme/izll81/10USD" target="_blank" class="donate-btn">$10</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            Searchable Select v1.0.0 | <span data-i18n="footerText">Made with ❤️</span>
+        </div>
+    </div>
+
+    <script src="options.js"></script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+{
+  "extName": {
+    "message": "Searchable Select"
+  },
+  "extDescription": {
+    "message": "Convertit les éléments select HTML simples en menus déroulants avec recherche"
+  },
+  "settingsTitle": {
+    "message": "Paramètres"
+  },
+  "settingsSubtitle": {
+    "message": "Extension Chrome Searchable Select"
+  },
+  "developerSettings": {
+    "message": "Paramètres développeur"
+  },
+  "enableDebugLogs": {
+    "message": "Activer les journaux de débogage"
+  },
+  "debugLogsDesc": {
+    "message": "Afficher les journaux dans la console du navigateur (développement uniquement)"
+  },
+  "domainFiltering": {
+    "message": "Filtrage de domaine"
+  },
+  "enableAllDomains": {
+    "message": "Activer sur tous les sites web"
+  },
+  "enableAllDomainsDesc": {
+    "message": "Si désactivé, ne fonctionne que sur les domaines spécifiés"
+  },
+  "warningDomainList": {
+    "message": "L'option \"Activer sur tous les sites web\" est désactivée. L'extension ne fonctionnera que sur les domaines listés ci-dessous."
+  },
+  "domainListInfo": {
+    "message": "Entrez les noms de domaine, un par ligne. Vous pouvez utiliser des caractères génériques (*).<br>Exemple: *.google.com inclut tous les sous-domaines Google."
+  },
+  "allowedDomains": {
+    "message": "Domaines autorisés"
+  },
+  "domainCount": {
+    "message": "$COUNT$ domaine(s)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "domainPlaceholder": {
+    "message": "exemple.fr\n*.google.fr\ngithub.com\nstackoverflow.com"
+  },
+  "domainExample": {
+    "message": "Formats d'exemple: exemple.fr, *.exemple.fr, sous-domaine.exemple.fr"
+  },
+  "btnSave": {
+    "message": "Enregistrer"
+  },
+  "btnReset": {
+    "message": "Réinitialiser"
+  },
+  "supportDeveloper": {
+    "message": "Soutenir le développeur"
+  },
+  "supportMessage": {
+    "message": "Si vous trouvez cette extension utile, offrez-moi un café! 😊"
+  },
+  "footerText": {
+    "message": "Made with ❤️"
+  },
+  "saveSuccess": {
+    "message": "Paramètres enregistrés avec succès! 🎉"
+  },
+  "saveError": {
+    "message": "Erreur lors de l'enregistrement des paramètres: $ERROR$",
+    "placeholders": {
+      "error": {
+        "content": "$1"
+      }
+    }
+  },
+  "domainRequired": {
+    "message": "Vous devez spécifier au moins un domaine ou activer l'option \"Activer sur tous les sites web\"!"
+  },
+  "resetConfirm": {
+    "message": "Êtes-vous sûr de vouloir restaurer les paramètres par défaut?"
+  },
+  "resetSuccess": {
+    "message": "Paramètres par défaut restaurés!"
+  },
+  "searchPlaceholder": {
+    "message": "Rechercher..."
+  },
+  "noResults": {
+    "message": "Aucun résultat trouvé"
+  },
+  "noChoices": {
+    "message": "Aucun choix disponible"
+  },
+  "loading": {
+    "message": "Chargement..."
+  },
+  "languageSettings": {
+    "message": "Paramètres de langue"
+  },
+  "selectLanguage": {
+    "message": "Sélectionner la langue"
+  },
+  "selectLanguageDesc": {
+    "message": "Choisir la langue de l'extension"
+  },
+  "languageHungarian": {
+    "message": "Magyar"
+  },
+  "languageEnglish": {
+    "message": "English"
+  },
+  "languageGerman": {
+    "message": "Deutsch"
+  },
+  "languageFrench": {
+    "message": "Français"
+  },
+  "languageSpanish": {
+    "message": "Español"
+  },
+  "languageItalian": {
+    "message": "Italiano"
+  },
+  "languagePortuguese": {
+    "message": "Português"
+  },
+  "languageRussian": {
+    "message": "Русский"
+  },
+  "languageJapanese": {
+    "message": "日本語"
+  },
+  "languageChinese": {
+    "message": "中文"
+  },
+  "languageChangedReload": {
+    "message": "Le paramètre de langue a été modifié. Souhaitez-vous recharger la page?"
+  }
+}

@@ -1,0 +1,28 @@
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
+
+# IDE
+.idea/
+
+# Playwright MCP
+.playwright-mcp/
+
+# Claude
+.claude/
+
+# Build artifacts
+*.zip
+
+# Generated assets (if regenerated from SVG sources)
+*.png
+
+# Test files
+test.html
+test-ajax.html
+demo-screenshot.html

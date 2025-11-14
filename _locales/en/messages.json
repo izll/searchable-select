@@ -1,0 +1,144 @@
+{
+  "extName": {
+    "message": "Searchable Select"
+  },
+  "extDescription": {
+    "message": "Transforms classic HTML select elements into searchable dropdowns. Works only with native <select> tags."
+  },
+  "settingsTitle": {
+    "message": "Settings"
+  },
+  "settingsSubtitle": {
+    "message": "Searchable Select Chrome Extension"
+  },
+  "developerSettings": {
+    "message": "Developer Settings"
+  },
+  "enableDebugLogs": {
+    "message": "Enable debug logs"
+  },
+  "debugLogsDesc": {
+    "message": "Show console logs in browser console (for development only)"
+  },
+  "domainFiltering": {
+    "message": "Domain Filtering"
+  },
+  "enableAllDomains": {
+    "message": "Enable on all websites"
+  },
+  "enableAllDomainsDesc": {
+    "message": "If disabled, only works on specified domains"
+  },
+  "warningDomainList": {
+    "message": "The \"Enable on all websites\" option is disabled. The extension will only work on the domains listed below."
+  },
+  "domainListInfo": {
+    "message": "Enter domain names, one per line. You can use wildcard (*) characters.<br>Example: *.google.com includes all Google subdomains."
+  },
+  "allowedDomains": {
+    "message": "Allowed Domains"
+  },
+  "domainCount": {
+    "message": "$COUNT$ domain(s)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "domainPlaceholder": {
+    "message": "example.com\n*.google.com\ngithub.com\nstackoverflow.com"
+  },
+  "domainExample": {
+    "message": "Example formats: example.com, *.example.com, subdomain.example.com"
+  },
+  "btnSave": {
+    "message": "Save"
+  },
+  "btnReset": {
+    "message": "Reset to Default"
+  },
+  "supportDeveloper": {
+    "message": "Support the Developer"
+  },
+  "supportMessage": {
+    "message": "If you find this extension useful, buy me a coffee! 😊"
+  },
+  "footerText": {
+    "message": "Made with ❤️"
+  },
+  "saveSuccess": {
+    "message": "Settings saved successfully! 🎉"
+  },
+  "saveError": {
+    "message": "Error saving settings: $ERROR$",
+    "placeholders": {
+      "error": {
+        "content": "$1"
+      }
+    }
+  },
+  "domainRequired": {
+    "message": "You must specify at least one domain, or enable the \"Enable on all websites\" option!"
+  },
+  "resetConfirm": {
+    "message": "Are you sure you want to reset to default settings?"
+  },
+  "resetSuccess": {
+    "message": "Default settings restored!"
+  },
+  "searchPlaceholder": {
+    "message": "Search..."
+  },
+  "noResults": {
+    "message": "No results found"
+  },
+  "noChoices": {
+    "message": "No choices available"
+  },
+  "loading": {
+    "message": "Loading..."
+  },
+  "languageSettings": {
+    "message": "Language Settings"
+  },
+  "selectLanguage": {
+    "message": "Select Language"
+  },
+  "selectLanguageDesc": {
+    "message": "Choose the extension language"
+  },
+  "languageHungarian": {
+    "message": "Magyar"
+  },
+  "languageEnglish": {
+    "message": "English"
+  },
+  "languageGerman": {
+    "message": "Deutsch"
+  },
+  "languageFrench": {
+    "message": "Français"
+  },
+  "languageSpanish": {
+    "message": "Español"
+  },
+  "languageItalian": {
+    "message": "Italiano"
+  },
+  "languagePortuguese": {
+    "message": "Português"
+  },
+  "languageRussian": {
+    "message": "Русский"
+  },
+  "languageJapanese": {
+    "message": "日本語"
+  },
+  "languageChinese": {
+    "message": "中文"
+  },
+  "languageChangedReload": {
+    "message": "Language setting has changed. Would you like to reload the page?"
+  }
+}

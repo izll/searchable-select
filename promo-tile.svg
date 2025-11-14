@@ -1,0 +1,74 @@
+<svg width="440" height="280" viewBox="0 0 440 280" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#f093fb;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f5576c;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- Shadow filter -->
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="0" dy="2" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.3"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="440" height="280" fill="url(#bgGrad)"/>
+
+  <!-- Main icon on the left -->
+  <g transform="translate(40, 76)">
+    <!-- Select dropdown -->
+    <rect x="0" y="0" width="120" height="54" rx="8" fill="white" opacity="0.95" filter="url(#shadow)"/>
+    <path d="M 84 21 L 99 21 L 91.5 33 Z" fill="#667eea"/>
+    <rect x="12" y="18" width="54" height="4.5" rx="2" fill="#764ba2" opacity="0.6"/>
+    <rect x="12" y="28.5" width="36" height="4.5" rx="2" fill="#764ba2" opacity="0.4"/>
+  </g>
+
+  <!-- Search magnifying glass -->
+  <g transform="translate(46, 138)">
+    <circle cx="27" cy="27" r="21" stroke="white" stroke-width="7" fill="none" filter="url(#shadow)"/>
+    <line x1="42" y1="42" x2="57" y2="57" stroke="white" stroke-width="7" stroke-linecap="round"/>
+    <circle cx="21" cy="21" r="6" fill="white" opacity="0.5"/>
+  </g>
+
+  <!-- Dropdown items -->
+  <g transform="translate(42, 100)" opacity="0.9">
+    <rect x="0" y="0" width="108" height="12" rx="3" fill="white" opacity="0.7" filter="url(#shadow)"/>
+    <rect x="0" y="15" width="108" height="12" rx="3" fill="url(#accentGrad)" opacity="0.9" filter="url(#shadow)"/>
+    <rect x="0" y="30" width="108" height="12" rx="3" fill="white" opacity="0.7" filter="url(#shadow)"/>
+  </g>
+
+  <!-- Text content -->
+  <g transform="translate(200, 80)">
+    <text x="0" y="0" font-family="Arial, sans-serif" font-size="36" font-weight="bold" fill="white">
+      Searchable
+    </text>
+    <text x="0" y="38" font-family="Arial, sans-serif" font-size="36" font-weight="bold" fill="white">
+      Select
+    </text>
+    <text x="0" y="70" font-family="Arial, sans-serif" font-size="15" fill="white" opacity="0.9">
+      Search in HTML dropdowns
+    </text>
+    <text x="0" y="100" font-family="Arial, sans-serif" font-size="14" fill="white" opacity="0.85">
+      ✓ Instant search
+    </text>
+    <text x="0" y="122" font-family="Arial, sans-serif" font-size="14" fill="white" opacity="0.85">
+      ✓ All websites
+    </text>
+    <text x="0" y="144" font-family="Arial, sans-serif" font-size="14" fill="white" opacity="0.85">
+      ✓ 10+ languages
+    </text>
+  </g>
+</svg>
