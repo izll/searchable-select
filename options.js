@@ -10,6 +10,9 @@ document.addEventListener('DOMContentLoaded', function() {
   const warningBox = document.getElementById('warningBox');
   const domainCountSpan = document.getElementById('domainCount');
   const languageSelect = document.getElementById('languageSelect');
+  const primaryColorInput = document.getElementById('primaryColor');
+  const colorPresets = document.querySelectorAll('.color-preset');
+  const widthModeRadios = document.querySelectorAll('input[name="widthMode"]');
 
   // Betöltjük a nyelvet és fordításokat
   window.i18nManager.getCurrentLanguage(function(lang) {
@@ -53,6 +56,31 @@ document.addEventListener('DOMContentLoaded', function() {
     updateDomainCount();
   });
 
+  // Szín változás figyelése
+  primaryColorInput.addEventListener('input', function() {
+    updateColorPresetActive(primaryColorInput.value);
+  });
+
+  // Preset színek kattintás
+  colorPresets.forEach(function(preset) {
+    preset.addEventListener('click', function() {
+      const color = preset.dataset.color;
+      primaryColorInput.value = color;
+      updateColorPresetActive(color);
+    });
+  });
+
+  // Aktív preset frissítése
+  function updateColorPresetActive(selectedColor) {
+    colorPresets.forEach(function(preset) {
+      if (preset.dataset.color.toLowerCase() === selectedColor.toLowerCase()) {
+        preset.classList.add('active');
+      } else {
+        preset.classList.remove('active');
+      }
+    });
+  }
+
   // Mentés gomb
   saveBtn.addEventListener('click', saveSettings);
 
@@ -64,11 +92,19 @@ document.addEventListener('DOMContentLoaded', function() {
     chrome.storage.sync.get({
       enableDebugLogs: false,
       enableAllDomains: true,
-      allowedDomains: []
+      allowedDomains: [],
+      primaryColor: '#4a90d9',
+      widthMode: 'original'
     }, function(items) {
       enableDebugLogsToggle.checked = items.enableDebugLogs;
       enableAllDomainsToggle.checked = items.enableAllDomains;
       domainListTextarea.value = items.allowedDomains.join('\n');
+      primaryColorInput.value = items.primaryColor;
+      updateColorPresetActive(items.primaryColor);
+      // Width mode beállítása
+      widthModeRadios.forEach(function(radio) {
+        radio.checked = (radio.value === items.widthMode);
+      });
       updateDomainListVisibility();
       updateWarningBox();
       updateDomainCount();
@@ -80,6 +116,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const enableDebugLogs = enableDebugLogsToggle.checked;
     const enableAllDomains = enableAllDomainsToggle.checked;
     const domainText = domainListTextarea.value;
+    const primaryColor = primaryColorInput.value;
+    const widthMode = document.querySelector('input[name="widthMode"]:checked').value;
 
     // Domain lista feldolgozása
     const allowedDomains = domainText
@@ -102,7 +140,9 @@ document.addEventListener('DOMContentLoaded', function() {
     chrome.storage.sync.set({
       enableDebugLogs: enableDebugLogs,
       enableAllDomains: enableAllDomains,
-      allowedDomains: allowedDomains
+      allowedDomains: allowedDomains,
+      primaryColor: primaryColor,
+      widthMode: widthMode
     }, function() {
       window.i18nManager.getCurrentLanguage(function(lang) {
         if (chrome.runtime.lastError) {
@@ -124,6 +164,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     enableDebugLogs: enableDebugLogs,
                     enableAllDomains: enableAllDomains,
                     allowedDomains: allowedDomains,
+                    primaryColor: primaryColor,
+                    widthMode: widthMode,
                     language: currentLang
                   }
                 }).catch(() => {
@@ -145,6 +187,12 @@ document.addEventListener('DOMContentLoaded', function() {
           enableDebugLogsToggle.checked = false;
           enableAllDomainsToggle.checked = true;
           domainListTextarea.value = '';
+          primaryColorInput.value = '#4a90d9';
+          updateColorPresetActive('#4a90d9');
+          // Width mode reset
+          widthModeRadios.forEach(function(radio) {
+            radio.checked = (radio.value === 'original');
+          });
           updateDomainListVisibility();
           updateWarningBox();
           updateDomainCount();

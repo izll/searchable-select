@@ -140,5 +140,32 @@
   },
   "languageChangedReload": {
     "message": "La configuración de idioma ha cambiado. ¿Desea recargar la página?"
+  },
+  "colorSettings": {
+    "message": "Apariencia"
+  },
+  "selectColor": {
+    "message": "Color de selección"
+  },
+  "selectColorDesc": {
+    "message": "Color de fondo para elementos seleccionados y resaltados"
+  },
+  "widthMode": {
+    "message": "Modo de ancho"
+  },
+  "widthModeDesc": {
+    "message": "Cómo manejar el ancho del elemento select"
+  },
+  "widthAuto": {
+    "message": "Automático"
+  },
+  "widthAutoDesc": {
+    "message": "Establece el ancho según el contenido"
+  },
+  "widthOriginal": {
+    "message": "Ancho original"
+  },
+  "widthOriginalDesc": {
+    "message": "Sigue el ancho del elemento select original"
   }
 }

@@ -42,5 +42,14 @@
   "languageRussian": {"message": "Русский"},
   "languageJapanese": {"message": "日本語"},
   "languageChinese": {"message": "中文"},
-  "languageChangedReload": {"message": "L'impostazione della lingua è cambiata. Vuoi ricaricare la pagina?"}
+  "languageChangedReload": {"message": "L'impostazione della lingua è cambiata. Vuoi ricaricare la pagina?"},
+  "colorSettings": {"message": "Aspetto"},
+  "selectColor": {"message": "Colore di selezione"},
+  "selectColorDesc": {"message": "Colore di sfondo per elementi selezionati e evidenziati"},
+  "widthMode": {"message": "Modalità larghezza"},
+  "widthModeDesc": {"message": "Come gestire la larghezza dell'elemento select"},
+  "widthAuto": {"message": "Automatico"},
+  "widthAutoDesc": {"message": "Imposta la larghezza in base al contenuto"},
+  "widthOriginal": {"message": "Larghezza originale"},
+  "widthOriginalDesc": {"message": "Segue la larghezza dell'elemento select originale"}
 }

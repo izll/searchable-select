@@ -140,5 +140,32 @@
   },
   "languageChangedReload": {
     "message": "Spracheinstellung wurde geändert. Möchten Sie die Seite neu laden?"
+  },
+  "colorSettings": {
+    "message": "Erscheinungsbild"
+  },
+  "selectColor": {
+    "message": "Auswahlfarbe"
+  },
+  "selectColorDesc": {
+    "message": "Hintergrundfarbe für ausgewählte und hervorgehobene Elemente"
+  },
+  "widthMode": {
+    "message": "Breitenmodus"
+  },
+  "widthModeDesc": {
+    "message": "Handhabung der Elementbreite"
+  },
+  "widthAuto": {
+    "message": "Automatisch"
+  },
+  "widthAutoDesc": {
+    "message": "Setzt Breite basierend auf Inhalt"
+  },
+  "widthOriginal": {
+    "message": "Originalbreite"
+  },
+  "widthOriginalDesc": {
+    "message": "Folgt der ursprünglichen Select-Breite"
   }
 }

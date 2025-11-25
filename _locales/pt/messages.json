@@ -42,5 +42,14 @@
   "languageRussian": {"message": "Русский"},
   "languageJapanese": {"message": "日本語"},
   "languageChinese": {"message": "中文"},
-  "languageChangedReload": {"message": "A configuração de idioma foi alterada. Deseja recarregar a página?"}
+  "languageChangedReload": {"message": "A configuração de idioma foi alterada. Deseja recarregar a página?"},
+  "colorSettings": {"message": "Aparência"},
+  "selectColor": {"message": "Cor de seleção"},
+  "selectColorDesc": {"message": "Cor de fundo para itens selecionados e destacados"},
+  "widthMode": {"message": "Modo de largura"},
+  "widthModeDesc": {"message": "Como lidar com a largura do elemento select"},
+  "widthAuto": {"message": "Automático"},
+  "widthAutoDesc": {"message": "Define a largura com base no conteúdo"},
+  "widthOriginal": {"message": "Largura original"},
+  "widthOriginalDesc": {"message": "Segue a largura do elemento select original"}
 }

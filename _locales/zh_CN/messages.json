@@ -42,5 +42,14 @@
   "languageRussian": {"message": "Русский"},
   "languageJapanese": {"message": "日本語"},
   "languageChinese": {"message": "中文"},
-  "languageChangedReload": {"message": "语言设置已更改。您想重新加载页面吗？"}
+  "languageChangedReload": {"message": "语言设置已更改。您想重新加载页面吗？"},
+  "colorSettings": {"message": "外观"},
+  "selectColor": {"message": "选择颜色"},
+  "selectColorDesc": {"message": "所选和悬停项目的背景颜色"},
+  "widthMode": {"message": "宽度模式"},
+  "widthModeDesc": {"message": "如何处理select元素的宽度"},
+  "widthAuto": {"message": "自动"},
+  "widthAutoDesc": {"message": "根据内容设置宽度"},
+  "widthOriginal": {"message": "原始宽度"},
+  "widthOriginalDesc": {"message": "遵循原始select元素的宽度"}
 }

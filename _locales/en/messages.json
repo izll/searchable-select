@@ -140,5 +140,32 @@
   },
   "languageChangedReload": {
     "message": "Language setting has changed. Would you like to reload the page?"
+  },
+  "colorSettings": {
+    "message": "Appearance"
+  },
+  "selectColor": {
+    "message": "Selection Color"
+  },
+  "selectColorDesc": {
+    "message": "Background color for selected and hovered items"
+  },
+  "widthMode": {
+    "message": "Width Mode"
+  },
+  "widthModeDesc": {
+    "message": "How to handle the select element width"
+  },
+  "widthAuto": {
+    "message": "Automatic"
+  },
+  "widthAutoDesc": {
+    "message": "Sets width based on content"
+  },
+  "widthOriginal": {
+    "message": "Original Width"
+  },
+  "widthOriginalDesc": {
+    "message": "Follows the original select element width"
   }
 }

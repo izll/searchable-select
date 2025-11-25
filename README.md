@@ -1,10 +1,10 @@
 # Searchable Select - Chrome Bővítmény
 
-Egy egyszerű Chrome bővítmény, ami automatikusan kereshetővé konvertálja az összes HTML `<select>` elemet a weboldalon a Choices.js könyvtár segítségével.
+Egy egyszerű Chrome bővítmény, ami automatikusan kereshetővé konvertálja az összes HTML `<select>` elemet a weboldalon a SlimSelect könyvtár segítségével.
 
 ## Verzió
 
-**v1.0.0** - Első hivatalos kiadás
+**v1.0.1** - SlimSelect v3.2.0 könyvtárra váltás
 
 Részletes változások: [CHANGELOG.md](CHANGELOG.md)
 
@@ -107,8 +107,8 @@ old-select-search/
 ├── content.js            # Fő script - select konverzió, AJAX/JSF támogatás, frame kezelés
 ├── options.html          # Beállítások oldal UI
 ├── options.js            # Beállítások oldal JavaScript logika
-├── choices.min.js        # Choices.js v10.2.0 könyvtár (minified)
-├── choices.min.css       # Choices.js alapértelmezett stílusok
+├── slimselect.min.js     # SlimSelect v3.2.0 könyvtár (minified)
+├── slimselect.min.css    # SlimSelect alapértelmezett stílusok
 ├── custom-styles.css     # Egyéni CSS override-ok (magasság, padding, dropdown)
 ├── icon16.png           # Chrome extension ikon 16x16
 ├── icon48.png           # Chrome extension ikon 48x48
@@ -121,7 +121,7 @@ old-select-search/
 
 ## Technológiák
 
-- **Choices.js v10.2.0** - Vanilla JavaScript select replacement könyvtár
+- **SlimSelect v3.2.0** - Vanilla JavaScript select replacement könyvtár
 - **Chrome Manifest V3** - Legújabb Chrome extension API
 - **MutationObserver** - Dinamikus elemek figyelése
 
@@ -129,63 +129,60 @@ old-select-search/
 
 1. A `content.js` betöltődik minden weboldalon
 2. Megkeresi az összes `<select>` elemet
-3. Inicializálja őket a Choices.js könyvtárral
+3. Inicializálja őket a SlimSelect könyvtárral
 4. Beállít egy MutationObserver-t a dinamikusan hozzáadott select elemek figyelésére
 5. Az új select elemek automatikusan konvertálódnak
 
 ## Testreszabás
 
-### Choices.js konfiguráció
+### SlimSelect konfiguráció
 
-Ha módosítani szeretnéd a Choices.js beállításokat, szerkeszd a `content.js` fájl convertSelect funkcióját:
+Ha módosítani szeretnéd a SlimSelect beállításokat, szerkeszd a `content.js` fájl convertSelect funkcióját:
 
 ```javascript
-const choices = new Choices(selectElement, {
-  searchEnabled: true,
-  searchPlaceholderValue: 'Keresés...',
-  itemSelectText: '', // Üres string - nem mutat semmit
-  noResultsText: 'Nincs találat',
-  noChoicesText: 'Nincs választható opció',
-  loadingText: 'Betöltés...',
-  removeItemButton: false,
-  shouldSort: false,
-  position: 'auto',
-  allowHTML: false
+const slim = new SlimSelect({
+  select: selectElement,
+  settings: {
+    showSearch: true,
+    focusSearch: true,
+    searchPlaceholder: 'Keresés...',
+    searchText: 'Nincs találat',
+    searchHighlight: true,
+    closeOnSelect: true,
+    allowDeselect: false,
+    openPosition: 'auto',
+    placeholderText: ''
+  }
 });
 ```
 
-További beállítási lehetőségekért lásd a [Choices.js dokumentációt](https://github.com/choices-js/Choices).
+További beállítási lehetőségekért lásd a [SlimSelect dokumentációt](https://slimselectjs.com/).
 
 ### CSS testreszabás
 
-A `custom-styles.css` fájl tartalmazza az egyéni stílusokat, amelyek felülírják a Choices.js alapértelmezett megjelenését:
+A `custom-styles.css` fájl tartalmazza az egyéni stílusokat, amelyek felülírják a SlimSelect alapértelmezett megjelenését:
 
 **Főbb stílusok:**
-- `.choices` - Főkonténer stílus (inline-block, margin: 0)
-- `.choices__inner` - Belső konténer (padding: 0, auto height, custom background #EFEFEF)
-- `.choices__list--single` - Single select lista (padding: 0px 4px)
-- `.choices__list--dropdown` - Legördülő lista (korlátlan szélesség, nowrap)
-- `.choices__list--dropdown .choices__item` - Legördülő elemek (padding, nowrap)
+- `.ss-main` - Főkonténer stílus (inline-flex, margin: 0)
+- `.ss-content` - Dropdown konténer (max-height, z-index)
+- `.ss-option` - Legördülő elemek (padding, hover effekt)
+- `.ss-search` - Keresőmező stílusok
 
 **Kulcsfontosságú override-ok:**
 ```css
-.choices {
-  display: inline-block !important;
+.ss-main {
+  display: inline-flex !important;
   margin: 0 !important;
-  width: 100% !important;
-}
-
-.choices__inner {
-  padding: 0 !important;
-  height: auto !important;
-  line-height: 1rem !important;
-  min-height: auto !important;
-  background-color: #EFEFEF !important;
   width: auto !important;
 }
 
-.choices__list--dropdown {
-  max-width: none !important;
+.ss-content {
+  max-height: 400px !important;
+  z-index: 9999 !important;
+}
+
+.ss-option {
+  padding: 8px 12px !important;
   white-space: nowrap !important;
 }
 ```
@@ -227,7 +224,7 @@ A teljes változási naplót lásd: [CHANGELOG.md](CHANGELOG.md)
 
 **Technikai:**
 - Chrome Extension Manifest V3
-- Choices.js v11.1.0
+- SlimSelect v3.2.0
 - MutationObserver dinamikus elemek figyeléséhez
 - Chrome Storage Sync API
 - WeakSet memória-hatékony követéshez
@@ -251,17 +248,18 @@ A teljes változási naplót lásd: [CHANGELOG.md](CHANGELOG.md)
 ### Probléma: Frame-ben lévő select-ek nem konvertálódnak
 **Megoldás:**
 - A v3.0.0+ verzió támogatja a frame-eket
-- Choices.js automatikusan betöltődik minden frame-be
+- SlimSelect automatikusan betöltődik minden frame-be
 - `all_frames: true` a manifestben engedélyezi ezt
 
 ### Probléma: Magasság vagy szélesség hibás
 **Megoldás:**
 - Ellenőrizd a `custom-styles.css` fájlt
 - A v3.2.0 optimalizált CSS-t használ
-- Testreszabhatod a `.choices__inner` stílusokat
+- Testreszabhatod a `.ss-main` stílusokat
 
 ## Források
 
-- [Choices.js GitHub](https://github.com/choices-js/Choices)
+- [SlimSelect dokumentáció](https://slimselectjs.com/)
+- [SlimSelect GitHub](https://github.com/brianvoe/slim-select)
 - [Chrome Extension Docs](https://developer.chrome.com/docs/extensions/)
 - [Manifest V3 Migration Guide](https://developer.chrome.com/docs/extensions/mv3/intro/)

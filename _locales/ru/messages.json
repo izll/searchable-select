@@ -42,5 +42,14 @@
   "languageRussian": {"message": "Русский"},
   "languageJapanese": {"message": "日本語"},
   "languageChinese": {"message": "中文"},
-  "languageChangedReload": {"message": "Настройка языка изменена. Перезагрузить страницу?"}
+  "languageChangedReload": {"message": "Настройка языка изменена. Перезагрузить страницу?"},
+  "colorSettings": {"message": "Внешний вид"},
+  "selectColor": {"message": "Цвет выделения"},
+  "selectColorDesc": {"message": "Цвет фона для выбранных и выделенных элементов"},
+  "widthMode": {"message": "Режим ширины"},
+  "widthModeDesc": {"message": "Как управлять шириной элемента select"},
+  "widthAuto": {"message": "Автоматически"},
+  "widthAutoDesc": {"message": "Устанавливает ширину на основе содержимого"},
+  "widthOriginal": {"message": "Исходная ширина"},
+  "widthOriginalDesc": {"message": "Следует ширине исходного элемента select"}
 }

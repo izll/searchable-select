@@ -4,12 +4,17 @@
   // Már konvertált select elemek tárolása
   const convertedSelects = new WeakSet();
 
+  // Szélesség cache ID alapján (AJAX után is megmarad)
+  const widthCache = new Map();
+
   // Beállítások
   let settings = {
     enableAllDomains: true,
     allowedDomains: [],
     enableDebugLogs: false,
-    language: 'hu' // Alapértelmezett nyelv
+    language: 'hu', // Alapértelmezett nyelv
+    primaryColor: '#4a90d9', // Alapértelmezett szín
+    widthMode: 'original' // 'auto' vagy 'original'
   };
 
   // Debug log helper - csak akkor ír ki, ha engedélyezve van
@@ -73,10 +78,14 @@
         enableAllDomains: true,
         allowedDomains: [],
         enableDebugLogs: false,
-        language: chrome.i18n.getUILanguage().split('-')[0]
+        language: chrome.i18n.getUILanguage().split('-')[0],
+        primaryColor: '#4a90d9',
+        widthMode: 'original'
       }, function(items) {
         settings = items;
         debugLog('Searchable Select: Beállítások betöltve', settings);
+        applyCustomColor(settings.primaryColor);
+        applyWidthMode(settings.widthMode);
         if (callback) callback();
       });
     } else {
@@ -85,15 +94,134 @@
     }
   }
 
-  // Select elem konvertálása Choices.js-re
+  // Szín alkalmazása dinamikusan
+  function applyCustomColor(color) {
+    const styleId = 'searchable-select-custom-color';
+    let styleEl = document.getElementById(styleId);
+
+    if (!styleEl) {
+      styleEl = document.createElement('style');
+      styleEl.id = styleId;
+      document.head.appendChild(styleEl);
+    }
+
+    // Hover szín számítása (világosabb verzió)
+    const hoverColor = lightenColor(color, 0.85);
+
+    styleEl.textContent = `
+      .ss-content .ss-list .ss-option.ss-selected {
+        background-color: ${color} !important;
+        color: #fff !important;
+      }
+      .ss-content .ss-list .ss-option:hover:not(.ss-disabled),
+      .ss-content .ss-list .ss-option.ss-highlighted {
+        background-color: ${hoverColor} !important;
+        color: #333 !important;
+      }
+      .ss-content .ss-search input:focus {
+        border-color: ${color} !important;
+        box-shadow: 0 0 0 1px ${color}33 !important;
+      }
+    `;
+
+    debugLog('Searchable Select: Egyedi szín alkalmazva:', color);
+  }
+
+  // Szín világosítása
+  function lightenColor(hex, factor) {
+    // Hex to RGB
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+
+    // Lighten
+    const newR = Math.round(r + (255 - r) * factor);
+    const newG = Math.round(g + (255 - g) * factor);
+    const newB = Math.round(b + (255 - b) * factor);
+
+    // RGB to Hex
+    return '#' + [newR, newG, newB].map(x => x.toString(16).padStart(2, '0')).join('');
+  }
+
+  // Szélesség mód alkalmazása - globális stílusok helyett most már egyedileg kezeljük
+  function applyWidthMode(mode) {
+    // Globális stílust töröljük, ha volt
+    const styleId = 'searchable-select-width-mode';
+    let styleEl = document.getElementById(styleId);
+    if (styleEl) {
+      styleEl.remove();
+    }
+
+    debugLog('Searchable Select: Szélesség mód:', mode);
+  }
+
+  // Select elem elrejtése (AJAX után is működjön)
+  const hiddenSelectStyle = 'position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important;opacity:0!important;pointer-events:none!important;visibility:hidden!important;';
+
+  // WeakSet a már megfigyelt select elemekhez
+  const observedSelects = new WeakSet();
+
+  function hideSelectElement(selectElement) {
+    selectElement.style.cssText = hiddenSelectStyle;
+
+    // Csak egyszer adjunk hozzá observer-t
+    if (observedSelects.has(selectElement)) {
+      return;
+    }
+    observedSelects.add(selectElement);
+
+    // MutationObserver ami újra elrejti ha valami visszaállítaná a stílust
+    let isUpdating = false;
+    const styleObserver = new MutationObserver((mutations) => {
+      if (isUpdating) return;
+
+      const currentStyle = selectElement.getAttribute('style') || '';
+      if (!currentStyle.includes('visibility:hidden')) {
+        isUpdating = true;
+        selectElement.style.cssText = hiddenSelectStyle;
+        debugLog('Searchable Select: Select stílus visszaállítva elrejtettre');
+        // Kis késleltetés után engedélyezzük újra
+        setTimeout(() => { isUpdating = false; }, 50);
+      }
+    });
+
+    styleObserver.observe(selectElement, { attributes: true, attributeFilter: ['style'] });
+  }
+
+  // Eredeti select szélesség lekérdezése
+  function getSelectWidth(selectElement) {
+    // Computed style lekérése
+    const computedStyle = window.getComputedStyle(selectElement);
+    const computedWidth = parseFloat(computedStyle.width);
+
+    // Ha van explicit width beállítva és érvényes
+    if (computedWidth && computedWidth > 0) {
+      return computedWidth + 'px';
+    }
+
+    // Inline style ellenőrzése
+    if (selectElement.style.width) {
+      return selectElement.style.width;
+    }
+
+    // Attribute ellenőrzése
+    const widthAttr = selectElement.getAttribute('width');
+    if (widthAttr) {
+      return widthAttr.includes('%') || widthAttr.includes('px') ? widthAttr : widthAttr + 'px';
+    }
+
+    return null;
+  }
+
+  // Select elem konvertálása SlimSelect-re
   async function convertSelect(selectElement) {
     // Ellenőrizzük, hogy már konvertálva lett-e
     if (convertedSelects.has(selectElement)) {
       return;
     }
 
-    // Ellenőrizzük, hogy van-e már Choices instance rajta
-    if (selectElement.classList.contains('choices__input')) {
+    // Ellenőrizzük, hogy van-e már SlimSelect instance rajta
+    if (selectElement.classList.contains('ss-main') || selectElement.dataset.ssid) {
       return;
     }
 
@@ -103,27 +231,79 @@
     }
 
     try {
+      // Eredeti szélesség lekérése MIELŐTT a SlimSelect felülírná
+      // Ha van ID, használjuk a cache-t (AJAX után is megmarad)
+      const selectId = selectElement.id || selectElement.name;
+      let originalWidth = null;
+
+      if (selectId && widthCache.has(selectId)) {
+        // Cache-ből vesszük
+        originalWidth = widthCache.get(selectId);
+        debugLog('Searchable Select: Szélesség cache-ből:', selectId, originalWidth);
+      } else {
+        // Kiszámoljuk és cache-eljük
+        originalWidth = getSelectWidth(selectElement);
+        if (selectId && originalWidth) {
+          widthCache.set(selectId, originalWidth);
+        }
+        debugLog('Searchable Select: Eredeti szélesség:', originalWidth);
+      }
+
       // Fordítások betöltése
       const lang = settings.language || 'hu';
       const searchPlaceholder = await getLocalizedMessage('searchPlaceholder', lang);
       const noResults = await getLocalizedMessage('noResults', lang);
-      const noChoices = await getLocalizedMessage('noChoices', lang);
-      const loading = await getLocalizedMessage('loading', lang);
 
-      // Choices.js inicializálása keresés támogatással
-      const choices = new Choices(selectElement, {
-        searchEnabled: true,
-        searchPlaceholderValue: searchPlaceholder,
-        searchResultLimit: Infinity, // Teszt: minden találat megjelenítése
-        itemSelectText: '', // Üres string - nem mutat semmit
-        noResultsText: noResults,
-        noChoicesText: noChoices,
-        loadingText: loading,
-        removeItemButton: false,
-        shouldSort: false,
-        position: 'auto',
-        allowHTML: false
+      // SlimSelect inicializálása keresés támogatással
+      const slim = new SlimSelect({
+        select: selectElement,
+        settings: {
+          showSearch: true,
+          focusSearch: true,
+          searchPlaceholder: searchPlaceholder,
+          searchText: noResults,
+          searchHighlight: true,
+          closeOnSelect: true,
+          allowDeselect: false,
+          openPosition: 'auto',
+          placeholderText: ''
+        }
       });
+
+      // Szélesség alkalmazása a beállítások alapján
+      // A SlimSelect a select.slim.render.main-ben tárolja a főelemet
+      const ssMain = slim.render.main.main;
+      debugLog('Searchable Select: ssMain elem:', ssMain, 'widthMode:', settings.widthMode, 'originalWidth:', originalWidth);
+
+      if (ssMain) {
+        // Eredeti szélességet eltároljuk a data attribútumban
+        if (originalWidth) {
+          ssMain.dataset.originalWidth = originalWidth;
+        }
+
+        // Szélesség alkalmazása függvény
+        const applyWidth = () => {
+          if (settings.widthMode === 'original' && originalWidth) {
+            ssMain.style.setProperty('width', originalWidth, 'important');
+            ssMain.style.setProperty('min-width', '0', 'important');
+          } else {
+            ssMain.style.setProperty('width', 'auto', 'important');
+            ssMain.style.setProperty('min-width', '50px', 'important');
+          }
+        };
+
+        // Alkalmazzuk azonnal
+        applyWidth();
+        debugLog('Searchable Select: Eredeti szélesség alkalmazva:', originalWidth);
+
+        // És késleltetve is, ha valami felülírná
+        setTimeout(applyWidth, 50);
+        setTimeout(applyWidth, 150);
+        setTimeout(applyWidth, 300);
+      }
+
+      // Az eredeti select elem elrejtése JavaScript-ből is (CSS backup)
+      hideSelectElement(selectElement);
 
       // Jelöljük meg, hogy konvertálva lett
       convertedSelects.add(selectElement);
@@ -168,9 +348,66 @@
     }
   }
 
+  // Árva SlimSelect elemek eltávolítása (AJAX után maradhatnak)
+  function cleanupOrphanedSlimSelects() {
+    // Keressük azokat a .ss-main elemeket, amiknek nincs megfelelő select párja
+    const ssMainElements = document.querySelectorAll('.ss-main');
+    let removedCount = 0;
+
+    ssMainElements.forEach(ssMain => {
+      // A SlimSelect a select elé szúrja be magát, szóval a previousElementSibling vagy
+      // az ugyanabban a containerben lévő select[data-ssid] a párja
+      const ssId = ssMain.dataset.id;
+      if (ssId) {
+        const linkedSelect = document.querySelector(`select[data-ssid="${ssId}"]`);
+        if (!linkedSelect || !document.body.contains(linkedSelect)) {
+          // Nincs párja vagy nincs a DOM-ban - töröljük
+          ssMain.remove();
+          removedCount++;
+        }
+      }
+    });
+
+    if (removedCount > 0) {
+      debugLog('Searchable Select: Árva SlimSelect elemek eltávolítva:', removedCount);
+    }
+  }
+
+  // Meglévő SlimSelect elemek szélességének frissítése
+  function updateSlimSelectWidths() {
+    const ssMainElements = document.querySelectorAll('.ss-main');
+
+    ssMainElements.forEach(ssMain => {
+      const ssId = ssMain.dataset.id;
+      if (ssId) {
+        const linkedSelect = document.querySelector(`select[data-ssid="${ssId}"]`);
+        if (linkedSelect && document.body.contains(linkedSelect)) {
+          // Szélesség frissítése a beállítások alapján
+          if (settings.widthMode === 'original') {
+            // Használjuk a tárolt eredeti szélességet
+            const storedWidth = ssMain.dataset.originalWidth;
+            if (storedWidth) {
+              ssMain.style.width = storedWidth;
+              ssMain.style.minWidth = '0';
+            }
+          } else {
+            ssMain.style.width = 'auto';
+            ssMain.style.minWidth = '50px';
+          }
+        }
+      }
+    });
+  }
+
   // Összes select elem konvertálása az oldalon
   function convertAllSelects() {
-    const selects = document.querySelectorAll('select:not(.choices__input):not(.choices__input--cloned)');
+    // Először takarítsuk el az árva elemeket
+    cleanupOrphanedSlimSelects();
+
+    // Frissítsük a meglévő SlimSelect-ek szélességét
+    updateSlimSelectWidths();
+
+    const selects = document.querySelectorAll('select:not([data-ssid])');
     debugLog('Searchable Select: convertAllSelects() - talált select elemek:', selects.length);
 
     if (selects.length > 0) {
@@ -240,15 +477,13 @@
                 framesToProcess.add(node);
               }
               // Ha az elem maga egy select
-              else if (node.tagName === 'SELECT' &&
-                       !node.classList.contains('choices__input') &&
-                       !node.classList.contains('choices__input--cloned')) {
+              else if (node.tagName === 'SELECT' && !node.dataset.ssid) {
                 selectsToConvert.add(node);
               }
               // Ha az elem tartalmaz select elemeket vagy frame-eket
               else if (node.querySelectorAll) {
                 // Select elemek keresése
-                const selects = node.querySelectorAll('select:not(.choices__input):not(.choices__input--cloned)');
+                const selects = node.querySelectorAll('select:not([data-ssid])');
                 selects.forEach(select => {
                   selectsToConvert.add(select);
                 });
@@ -293,10 +528,10 @@
         }
 
         isProcessing = false;
-      }, 50); // 50ms debounce (növelve 10ms-ról)
+      }, 50); // 50ms debounce
     });
 
-    // Observer indítása - bővített beállításokkal
+    // Observer indítása
     observer.observe(document.body, {
       childList: true,
       subtree: true,
@@ -332,13 +567,12 @@
         const frameOrigin = frameDoc.location.origin;
         const currentOrigin = window.location.origin;
 
-        // Csak azonos origin frame-eket dolgozzunk fel (biztonsági okokból)
+        // Csak azonos origin frame-eket dolgozzunk fel
         if (frameOrigin !== currentOrigin && frameOrigin !== 'null') {
-          debugLog('Searchable Select: Cross-origin frame kihagyva (biztonsági okokból):', frameOrigin);
+          debugLog('Searchable Select: Cross-origin frame kihagyva:', frameOrigin);
           return;
         }
       } catch (e) {
-        // Ha nem tudjuk ellenőrizni az origint, ne dolgozzuk fel
         debugLog('Searchable Select: Frame origin ellenőrzés sikertelen, kihagyva');
         return;
       }
@@ -350,23 +584,15 @@
       // Jelöljük meg hogy feldolgoztuk
       processedFrames.add(frame);
 
-      // Csak CSS injektálása az iframe-be, a parent window Choices osztályát használjuk
-      // MEGJEGYZÉS: Ez a megközelítés nem működik tökéletesen cross-document esetben.
-      // Az iframe-ben lévő select elemek konvertálódnak, DE a Choices.js event listener-jei
-      // (click, focus, stb.) nem működnek megfelelően, mert a parent window context-jéből
-      // nem tudják kezelni az iframe document eseményeit.
-      // Ez különösen problémás strict Content Security Policy (CSP) esetén, ahol nem lehet
-      // script-et injektálni az iframe-be (pl. W3Schools Tryit Editor).
-      // A legtöbb weboldalon nincs ilyen szigorú CSP, így ott működni fog.
+      // CSS injektálása az iframe-be
       debugLog('Searchable Select: CSS injektálása a ' + frameType + '-be...');
 
-      // Choices CSS injektálása
-      const choicesCssUrl = chrome.runtime.getURL('choices.min.css');
+      const slimCssUrl = chrome.runtime.getURL('slimselect.min.css');
       const customCssUrl = chrome.runtime.getURL('custom-styles.css');
 
       const cssLink1 = frameDoc.createElement('link');
       cssLink1.rel = 'stylesheet';
-      cssLink1.href = choicesCssUrl;
+      cssLink1.href = slimCssUrl;
       frameDoc.head.appendChild(cssLink1);
 
       const cssLink2 = frameDoc.createElement('link');
@@ -374,52 +600,75 @@
       cssLink2.href = customCssUrl;
       frameDoc.head.appendChild(cssLink2);
 
-      debugLog('Searchable Select: CSS injektálva, parent window Choices használata');
+      debugLog('Searchable Select: CSS injektálva');
 
-      // Select elemek konvertálása a frame-ben a parent window Choices osztályával
-      const frameSelects = frameDoc.querySelectorAll('select:not(.choices__input):not(.choices__input--cloned)');
+      // Select elemek konvertálása a frame-ben
+      const frameSelects = frameDoc.querySelectorAll('select:not([data-ssid])');
       debugLog('Searchable Select: ' + frameType + '-ben talált select elemek:', frameSelects.length);
 
       let convertedInFrame = 0;
 
-      // Feldolgozzuk az iframe select elemeket (async miatt Promise.all)
+      // Feldolgozzuk az iframe select elemeket
       const conversionPromises = Array.from(frameSelects).map(async select => {
         try {
-          // Parent window Choices osztályát használjuk (CSP miatt nem tudjuk az iframe-be injektálni)
-          const ChoicesClass = window.Choices;
-          debugLog('Searchable Select: Parent Choices létezik?', !!ChoicesClass);
-          debugLog('Searchable Select: frameDoc.body létezik?', !!frameDoc.body);
-          debugLog('Searchable Select: select a body-ban van?', frameDoc.body ? frameDoc.body.contains(select) : false);
-          debugLog('Searchable Select: már konvertálva?', convertedSelects.has(select));
+          const SlimSelectClass = window.SlimSelect;
 
-          if (ChoicesClass && frameDoc.body && frameDoc.body.contains(select) && !convertedSelects.has(select)) {
-            debugLog('Searchable Select: Choices példány létrehozása iframe select-re...');
+          if (SlimSelectClass && frameDoc.body && frameDoc.body.contains(select) && !convertedSelects.has(select)) {
+            // Eredeti szélesség lekérése - cache használatával
+            const selectId = select.id || select.name;
+            let originalWidth = null;
 
-            // Fordítások betöltése
+            if (selectId && widthCache.has(selectId)) {
+              originalWidth = widthCache.get(selectId);
+            } else {
+              originalWidth = getSelectWidth(select);
+              if (selectId && originalWidth) {
+                widthCache.set(selectId, originalWidth);
+              }
+            }
+
             const lang = settings.language || 'hu';
             const searchPlaceholder = await getLocalizedMessage('searchPlaceholder', lang);
             const noResults = await getLocalizedMessage('noResults', lang);
-            const noChoices = await getLocalizedMessage('noChoices', lang);
-            const loading = await getLocalizedMessage('loading', lang);
 
-            const choices = new ChoicesClass(select, {
-              searchEnabled: true,
-              searchPlaceholderValue: searchPlaceholder,
-              searchResultLimit: Infinity,
-              itemSelectText: '',
-              noResultsText: noResults,
-              noChoicesText: noChoices,
-              loadingText: loading,
-              removeItemButton: false,
-              shouldSort: false,
-              position: 'auto',
-              allowHTML: false
+            const slim = new SlimSelectClass({
+              select: select,
+              settings: {
+                showSearch: true,
+                focusSearch: true,
+                searchPlaceholder: searchPlaceholder,
+                searchText: noResults,
+                searchHighlight: true,
+                closeOnSelect: true,
+                allowDeselect: false,
+                openPosition: 'auto',
+                placeholderText: ''
+              }
             });
+
+            // Szélesség alkalmazása a beállítások alapján
+            const ssMain = slim.render.main.main;
+            if (ssMain) {
+              // Eredeti szélességet eltároljuk a data attribútumban
+              if (originalWidth) {
+                ssMain.dataset.originalWidth = originalWidth;
+              }
+
+              if (settings.widthMode === 'original' && originalWidth) {
+                ssMain.style.width = originalWidth;
+                ssMain.style.minWidth = '0';
+              } else {
+                ssMain.style.width = 'auto';
+                ssMain.style.minWidth = '50px';
+              }
+            }
+
+            // Az eredeti select elem elrejtése JavaScript-ből is
+            hideSelectElement(select);
+
             convertedSelects.add(select);
             convertedInFrame++;
             debugLog('Searchable Select: iframe select konvertálva', select);
-          } else {
-            debugLog('Searchable Select: Konverzió kihagyva - valamelyik feltétel nem teljesült');
           }
         } catch (error) {
           console.error('Searchable Select: Hiba az iframe select konvertálása során:', error);
@@ -430,10 +679,10 @@
 
       debugLog('Searchable Select: ' + frameType + '-ben konvertálva:', convertedInFrame);
 
-      // Rekurzívan feldolgozzuk a frame-en belüli frame-eket és iframe-eket is
+      // Rekurzívan feldolgozzuk a frame-en belüli frame-eket
       const nestedFrames = frameDoc.querySelectorAll('frame, iframe');
       if (nestedFrames.length > 0) {
-        debugLog('Searchable Select: Nested frames/iframes találva (' + frameType + '-ben):', nestedFrames.length);
+        debugLog('Searchable Select: Nested frames találva:', nestedFrames.length);
         nestedFrames.forEach(nestedFrame => {
           setTimeout(() => processFrame(nestedFrame), 100);
         });
@@ -447,12 +696,12 @@
         mutations.forEach(mutation => {
           mutation.addedNodes.forEach(node => {
             if (node.nodeType === Node.ELEMENT_NODE) {
-              if (node.tagName === 'SELECT') {
+              if (node.tagName === 'SELECT' && !node.dataset.ssid) {
                 selectsToConvert.add(node);
               } else if (node.tagName === 'IFRAME' || node.tagName === 'FRAME') {
                 framesToProcess.add(node);
               } else if (node.querySelectorAll) {
-                const selects = node.querySelectorAll('select:not(.choices__input):not(.choices__input--cloned)');
+                const selects = node.querySelectorAll('select:not([data-ssid])');
                 selects.forEach(select => selectsToConvert.add(select));
 
                 const frames = node.querySelectorAll('frame, iframe');
@@ -463,12 +712,11 @@
         });
 
         if (selectsToConvert.size > 0) {
-          debugLog('Searchable Select: ' + frameType + '-ben ' + selectsToConvert.size + ' új select elem észlelve');
+          debugLog('Searchable Select: ' + frameType + '-ben ' + selectsToConvert.size + ' új select');
           selectsToConvert.forEach(select => convertSelectDelayed(select));
         }
 
         if (framesToProcess.size > 0) {
-          debugLog('Searchable Select: ' + frameType + '-ben ' + framesToProcess.size + ' új frame/iframe észlelve');
           framesToProcess.forEach(f => {
             setTimeout(() => processFrame(f), 100);
           });
@@ -484,8 +732,7 @@
         debugLog('Searchable Select: ' + frameType + ' MutationObserver elindítva');
       }
 
-      // JSF/RichFaces AJAX kompatibilitás a frame-ben is
-      // frameWindow már deklarálva van fentebb (277. sor)
+      // JSF/RichFaces AJAX kompatibilitás a frame-ben
       if (frameWindow) {
         // RichFaces AJAX események
         if (frameWindow.Richfaces || frameWindow.RichFaces) {
@@ -493,7 +740,7 @@
             frameDoc.addEventListener('ajaxcomplete', function() {
               debugLog('Searchable Select: RichFaces AJAX complete (' + frameType + ')');
               setTimeout(function() {
-                const selects = frameDoc.querySelectorAll('select:not(.choices__input):not(.choices__input--cloned)');
+                const selects = frameDoc.querySelectorAll('select:not([data-ssid])');
                 selects.forEach(select => {
                   if (!convertedSelects.has(select)) {
                     convertSelect(select);
@@ -501,7 +748,6 @@
                 });
               }, 100);
             });
-            debugLog('Searchable Select: RichFaces AJAX listener hozzáadva (' + frameType + ')');
           } catch (e) {
             debugLog('Searchable Select: RichFaces setup hiba:', e.message);
           }
@@ -514,8 +760,7 @@
             frameWindow.jsf.ajax.request = function() {
               const result = originalRequest.apply(this, arguments);
               setTimeout(function() {
-                debugLog('Searchable Select: JSF AJAX complete (' + frameType + ')');
-                const selects = frameDoc.querySelectorAll('select:not(.choices__input):not(.choices__input--cloned)');
+                const selects = frameDoc.querySelectorAll('select:not([data-ssid])');
                 selects.forEach(select => {
                   if (!convertedSelects.has(select)) {
                     convertSelect(select);
@@ -523,7 +768,7 @@
                 });
               }, 100);
               setTimeout(function() {
-                const selects = frameDoc.querySelectorAll('select:not(.choices__input):not(.choices__input--cloned)');
+                const selects = frameDoc.querySelectorAll('select:not([data-ssid])');
                 selects.forEach(select => {
                   if (!convertedSelects.has(select)) {
                     convertSelect(select);
@@ -532,7 +777,6 @@
               }, 300);
               return result;
             };
-            debugLog('Searchable Select: JSF AJAX hook telepítve (' + frameType + ')');
           } catch (e) {
             debugLog('Searchable Select: JSF setup hiba:', e.message);
           }
@@ -554,33 +798,18 @@
               const xhr = this;
               xhr.addEventListener('load', function() {
                 if (xhr.status >= 200 && xhr.status < 400) {
-                  debugLog('Searchable Select: XHR complete (' + frameType + '):', xhr._frameUrl);
                   setTimeout(function() {
-                    const selects = frameDoc.querySelectorAll('select:not(.choices__input):not(.choices__input--cloned)');
-                    let newCount = 0;
+                    const selects = frameDoc.querySelectorAll('select:not([data-ssid])');
                     selects.forEach(select => {
                       if (!convertedSelects.has(select)) {
                         convertSelect(select);
-                        newCount++;
                       }
                     });
-                    if (newCount > 0) {
-                      debugLog('Searchable Select: XHR után konvertálva:', newCount);
-                    }
                   }, 100);
-                  setTimeout(function() {
-                    const selects = frameDoc.querySelectorAll('select:not(.choices__input):not(.choices__input--cloned)');
-                    selects.forEach(select => {
-                      if (!convertedSelects.has(select)) {
-                        convertSelect(select);
-                      }
-                    });
-                  }, 500);
                 }
               });
               return origSend.apply(this, arguments);
             };
-            debugLog('Searchable Select: XHR hook telepítve (' + frameType + ')');
           } catch (e) {
             debugLog('Searchable Select: XHR setup hiba:', e.message);
           }
@@ -588,7 +817,7 @@
       }
 
     } catch (error) {
-      debugLog('Searchable Select: ' + frameType + ' feldolgozási hiba (valószínűleg CORS):', error.message);
+      debugLog('Searchable Select: ' + frameType + ' feldolgozási hiba:', error.message);
     }
   }
 
@@ -598,72 +827,25 @@
     debugLog('Searchable Select: Talált frame elemek:', frames.length);
 
     frames.forEach(frame => {
-      // Azonnali feldolgozás
       if (frame.contentDocument || frame.contentWindow) {
         processFrame(frame);
-
-        // Késleltetett újraellenőrzés - ha később töltődnek be a select-ek
         setTimeout(() => {
           try {
             const frameDoc = frame.contentDocument || frame.contentWindow?.document;
-            const frameWindow = frame.contentWindow;
-            if (frameDoc && frameWindow) {
-              const selects = frameDoc.querySelectorAll('select:not(.choices__input):not(.choices__input--cloned)');
+            if (frameDoc) {
+              const selects = frameDoc.querySelectorAll('select:not([data-ssid])');
               if (selects.length > 0) {
-                debugLog('Searchable Select: Késleltetett ellenőrzés - iframe-ben talált select elemek:', selects.length);
-                debugLog('Searchable Select: Késleltetett - frameWindow típusa:', typeof frameWindow);
-                let newCount = 0;
-                let ChoicesClass = null;
-
-                try {
-                  ChoicesClass = frameWindow.Choices;
-                  debugLog('Searchable Select: Késleltetett - Choices típusa:', typeof ChoicesClass);
-                } catch (accessError) {
-                  debugLog('Searchable Select: Késleltetett - Choices hozzáférési hiba:', accessError.message);
-                }
-
-                if (ChoicesClass) {
-                  debugLog('Searchable Select: Késleltetett - Choices elérhető, konverzió indul');
-                  selects.forEach(select => {
-                    debugLog('Searchable Select: Késleltetett - select feldolgozása');
-                    if (!convertedSelects.has(select) && frameDoc.body && frameDoc.body.contains(select)) {
-                      debugLog('Searchable Select: Késleltetett - feltételek teljesültek, Choices példány létrehozása');
-                      try {
-                        const choices = new ChoicesClass(select, {
-                          searchEnabled: true,
-                          searchPlaceholderValue: 'Keresés...',
-                          searchResultLimit: Infinity,
-                          itemSelectText: '',
-                          noResultsText: 'Nincs találat',
-                          noChoicesText: 'Nincs választható opció',
-                          loadingText: 'Betöltés...',
-                          removeItemButton: false,
-                          shouldSort: false,
-                          position: 'auto',
-                          allowHTML: false
-                        });
-                        convertedSelects.add(select);
-                        newCount++;
-                        debugLog('Searchable Select: Késleltetett konverzió sikeres!', select);
-                      } catch (error) {
-                        console.error('Searchable Select: Késleltetett konverzió hiba:', error);
-                      }
-                    } else {
-                      debugLog('Searchable Select: Késleltetett - feltételek NEM teljesültek. Már konvertálva?', convertedSelects.has(select), 'Body contains?', frameDoc.body && frameDoc.body.contains(select));
-                    }
-                  });
-                  if (newCount > 0) {
-                    debugLog('Searchable Select: Késleltetett konverzió összesen:', newCount);
+                selects.forEach(select => {
+                  if (!convertedSelects.has(select)) {
+                    convertSelect(select);
                   }
-                } else {
-                  debugLog('Searchable Select: Késleltetett - Choices NEM elérhető!');
-                }
+                });
               }
             }
           } catch (e) {
             debugLog('Searchable Select: Késleltetett ellenőrzés hiba:', e.message);
           }
-        }, 2000); // 2 másodperc késleltetés
+        }, 2000);
       } else {
         frame.addEventListener('load', function() {
           processFrame(frame);
@@ -676,34 +858,25 @@
     debugLog('Searchable Select: Talált iframe elemek:', iframes.length);
 
     iframes.forEach(iframe => {
-      // Azonnali feldolgozás
       if (iframe.contentDocument || iframe.contentWindow) {
         processFrame(iframe);
-
-        // Késleltetett újraellenőrzés
         setTimeout(() => {
           try {
             const frameDoc = iframe.contentDocument || iframe.contentWindow?.document;
             if (frameDoc) {
-              const selects = frameDoc.querySelectorAll('select:not(.choices__input):not(.choices__input--cloned)');
+              const selects = frameDoc.querySelectorAll('select:not([data-ssid])');
               if (selects.length > 0) {
-                debugLog('Searchable Select: Késleltetett ellenőrzés - iframe-ben talált select elemek:', selects.length);
-                let newCount = 0;
                 selects.forEach(select => {
                   if (!convertedSelects.has(select)) {
                     convertSelect(select);
-                    newCount++;
                   }
                 });
-                if (newCount > 0) {
-                  debugLog('Searchable Select: Késleltetett konverzió:', newCount);
-                }
               }
             }
           } catch (e) {
             debugLog('Searchable Select: Késleltetett ellenőrzés hiba:', e.message);
           }
-        }, 2000); // 2 másodperc késleltetés
+        }, 2000);
       } else {
         iframe.addEventListener('load', function() {
           processFrame(iframe);
@@ -738,10 +911,17 @@
       if (request.action === 'settingsUpdated') {
         debugLog('Searchable Select: Beállítások frissítve', request.settings);
         settings = request.settings;
+        // Szín frissítése azonnal
+        if (settings.primaryColor) {
+          applyCustomColor(settings.primaryColor);
+        }
+        // Szélesség mód frissítése
+        if (settings.widthMode) {
+          applyWidthMode(settings.widthMode);
+        }
       } else if (request.action === 'languageChanged') {
         debugLog('Searchable Select: Nyelv megváltozott', request.language);
         settings.language = request.language;
-        // Az oldal újratöltése szükséges a már konvertált elemek újra-konvertálásához az új nyelvvel
         getLocalizedMessage('languageChangedReload', request.language).then(msg => {
           if (confirm(msg)) {
             location.reload();
@@ -751,15 +931,12 @@
       }
 
       if (request.action === 'settingsUpdated') {
-
-        // Ha az aktuális domain már nincs engedélyezve, újratöltjük az oldalt
         if (!isCurrentDomainAllowed()) {
-          debugLog('Searchable Select: Domain már nincs engedélyezve, oldal újratöltése ajánlott');
+          debugLog('Searchable Select: Domain már nincs engedélyezve');
           if (confirm('A Searchable Select beállításai megváltoztak. Szeretnéd újratölteni az oldalt?')) {
             window.location.reload();
           }
         } else {
-          // Ha engedélyezve van, inicializáljuk újra
           init();
         }
       }
@@ -770,14 +947,12 @@
   function setupJSFCompatibility() {
     // JSF AJAX események figyelése
     if (typeof jsf !== 'undefined' && jsf.ajax) {
-      // JSF AJAX success event
       const originalJsfRequest = jsf.ajax.request;
       jsf.ajax.request = function() {
         const result = originalJsfRequest.apply(this, arguments);
 
-        // AJAX kérés befejezése után
         setTimeout(function() {
-          debugLog('Searchable Select: JSF AJAX befejezve, select-ek újrakonvertálása');
+          debugLog('Searchable Select: JSF AJAX befejezve');
           convertAllSelects();
         }, 100);
 
@@ -815,7 +990,7 @@
       }
     }
 
-    // Általános AJAX események (jQuery AJAX)
+    // jQuery AJAX
     if (typeof jQuery !== 'undefined') {
       jQuery(document).ajaxComplete(function() {
         debugLog('Searchable Select: jQuery AJAX befejezve');
@@ -825,11 +1000,11 @@
       debugLog('Searchable Select: jQuery AJAX kompatibilitás beállítva');
     }
 
-    // XMLHttpRequest globális figyelés - optimalizált verzió
+    // XMLHttpRequest globális figyelés
     const originalXHROpen = XMLHttpRequest.prototype.open;
     const originalXHRSend = XMLHttpRequest.prototype.send;
     let lastXHRProcessTime = 0;
-    const XHR_PROCESS_COOLDOWN = 200; // ms
+    const XHR_PROCESS_COOLDOWN = 200;
 
     XMLHttpRequest.prototype.open = function(method, url) {
       this._method = method;
@@ -844,35 +1019,29 @@
 
       debugLog('Searchable Select: XHR send:', url);
 
-      // Load esemény
       xhr.addEventListener('load', function() {
         debugLog('Searchable Select: XHR load befejezve:', url, 'status:', xhr.status);
 
-        // Bármilyen sikeres AJAX kérés után
         if (xhr.status >= 200 && xhr.status < 400) {
           const now = Date.now();
 
-          // Cooldown ellenőrzés - ne dolgozzunk fel túl gyakran
           if (now - lastXHRProcessTime < XHR_PROCESS_COOLDOWN) {
-            debugLog('Searchable Select: XHR cooldown aktív, kihagyás');
+            debugLog('Searchable Select: XHR cooldown aktív');
             return;
           }
 
           lastXHRProcessTime = now;
           debugLog('Searchable Select: Sikeres AJAX, select-ek újrakonvertálása');
 
-          // Egyetlen delayed check elegendő - a MutationObserver kezeli a többit
           setTimeout(function() {
-            debugLog('Searchable Select: 150ms késleltetés után konvertálás');
             convertAllSelects();
           }, 150);
         }
       });
 
-      // ReadyStateChange is figyeljük
       xhr.addEventListener('readystatechange', function() {
         if (xhr.readyState === 4 && xhr.status >= 200 && xhr.status < 400) {
-          debugLog('Searchable Select: ReadyState 4 (befejezve)');
+          debugLog('Searchable Select: ReadyState 4');
         }
       });
 
@@ -884,7 +1053,6 @@
 
   // Beállítások betöltése és inicializálás
   loadSettings(function() {
-    // Kezdeti indítás
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', function() {
         init();
@@ -895,7 +1063,6 @@
       setupJSFCompatibility();
     }
 
-    // Ha a body még nem létezik, várunk rá
     if (!document.body) {
       const bodyObserver = new MutationObserver(() => {
         if (document.body) {

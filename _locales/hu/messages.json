@@ -140,5 +140,32 @@
   },
   "languageChangedReload": {
     "message": "A nyelv beállítás megváltozott. Szeretnéd újratölteni az oldalt?"
+  },
+  "colorSettings": {
+    "message": "Megjelenés"
+  },
+  "selectColor": {
+    "message": "Kijelölés színe"
+  },
+  "selectColorDesc": {
+    "message": "A kiválasztott elem és hover háttérszíne"
+  },
+  "widthMode": {
+    "message": "Szélesség mód"
+  },
+  "widthModeDesc": {
+    "message": "A select elem szélességének kezelése"
+  },
+  "widthAuto": {
+    "message": "Automatikus"
+  },
+  "widthAutoDesc": {
+    "message": "A tartalom alapján állítja be a szélességet"
+  },
+  "widthOriginal": {
+    "message": "Eredeti szélesség"
+  },
+  "widthOriginalDesc": {
+    "message": "Az eredeti select elem szélességét követi"
   }
 }

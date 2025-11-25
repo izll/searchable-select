@@ -42,5 +42,14 @@
   "languageRussian": {"message": "Русский"},
   "languageJapanese": {"message": "日本語"},
   "languageChinese": {"message": "中文"},
-  "languageChangedReload": {"message": "言語設定が変更されました。ページを再読み込みしますか？"}
+  "languageChangedReload": {"message": "言語設定が変更されました。ページを再読み込みしますか？"},
+  "colorSettings": {"message": "外観"},
+  "selectColor": {"message": "選択色"},
+  "selectColorDesc": {"message": "選択およびホバー項目の背景色"},
+  "widthMode": {"message": "幅モード"},
+  "widthModeDesc": {"message": "select要素の幅の処理方法"},
+  "widthAuto": {"message": "自動"},
+  "widthAutoDesc": {"message": "コンテンツに基づいて幅を設定"},
+  "widthOriginal": {"message": "元の幅"},
+  "widthOriginalDesc": {"message": "元のselect要素の幅に従う"}
 }

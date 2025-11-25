@@ -347,6 +347,103 @@
             background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
             transform: translateY(-3px) scale(1.05);
         }
+
+        /* Color picker styles */
+        .color-picker-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .color-picker {
+            width: 50px;
+            height: 40px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            padding: 2px;
+        }
+
+        .color-picker::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+
+        .color-picker::-webkit-color-swatch {
+            border: none;
+            border-radius: 4px;
+        }
+
+        .color-presets {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .color-preset {
+            width: 32px;
+            height: 32px;
+            border: 2px solid transparent;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .color-preset:hover {
+            transform: scale(1.15);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .color-preset.active {
+            border-color: #333;
+            box-shadow: 0 0 0 2px white, 0 0 0 4px #333;
+        }
+
+        /* Width options radio buttons */
+        .width-options {
+            display: flex;
+            gap: 12px;
+        }
+
+        .radio-option {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .radio-option:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .radio-option input[type="radio"] {
+            display: none;
+        }
+
+        .radio-option input[type="radio"]:checked + .radio-label {
+            color: #667eea;
+        }
+
+        .radio-option:has(input[type="radio"]:checked) {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .radio-label {
+            font-weight: 600;
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .radio-desc {
+            font-size: 12px;
+            color: #666;
+        }
     </style>
 </head>
 <body>
@@ -377,6 +474,49 @@
                         <option value="ja" data-i18n="languageJapanese">日本語</option>
                         <option value="zh_CN" data-i18n="languageChinese">中文</option>
                     </select>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 data-i18n="colorSettings">🎨 Megjelenés</h2>
+
+                <div class="toggle-container" style="flex-direction: column; align-items: stretch;">
+                    <div style="margin-bottom: 10px;">
+                        <div class="toggle-label" data-i18n="selectColor">Kijelölés színe</div>
+                        <div class="toggle-description" data-i18n="selectColorDesc">A kiválasztott elem és hover háttérszíne</div>
+                    </div>
+                    <div class="color-picker-container">
+                        <input type="color" id="primaryColor" value="#4a90d9" class="color-picker">
+                        <div class="color-presets">
+                            <button type="button" class="color-preset" data-color="#4a90d9" title="Kék" style="background: #4a90d9;"></button>
+                            <button type="button" class="color-preset" data-color="#28a745" title="Zöld" style="background: #28a745;"></button>
+                            <button type="button" class="color-preset" data-color="#dc3545" title="Piros" style="background: #dc3545;"></button>
+                            <button type="button" class="color-preset" data-color="#fd7e14" title="Narancs" style="background: #fd7e14;"></button>
+                            <button type="button" class="color-preset" data-color="#6f42c1" title="Lila" style="background: #6f42c1;"></button>
+                            <button type="button" class="color-preset" data-color="#20c997" title="Türkiz" style="background: #20c997;"></button>
+                            <button type="button" class="color-preset" data-color="#e83e8c" title="Rózsaszín" style="background: #e83e8c;"></button>
+                            <button type="button" class="color-preset" data-color="#6c757d" title="Szürke" style="background: #6c757d;"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="toggle-container" style="flex-direction: column; align-items: stretch;">
+                    <div style="margin-bottom: 10px;">
+                        <div class="toggle-label" data-i18n="widthMode">Szélesség mód</div>
+                        <div class="toggle-description" data-i18n="widthModeDesc">A select elem szélességének kezelése</div>
+                    </div>
+                    <div class="width-options">
+                        <label class="radio-option">
+                            <input type="radio" name="widthMode" value="auto" checked>
+                            <span class="radio-label" data-i18n="widthAuto">Automatikus</span>
+                            <span class="radio-desc" data-i18n="widthAutoDesc">A tartalom alapján állítja be a szélességet</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="widthMode" value="original">
+                            <span class="radio-label" data-i18n="widthOriginal">Eredeti szélesség</span>
+                            <span class="radio-desc" data-i18n="widthOriginalDesc">Az eredeti select elem szélességét követi</span>
+                        </label>
+                    </div>
                 </div>
             </div>
 
