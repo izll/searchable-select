@@ -1,223 +1,223 @@
-# Searchable Select - Fejlesztési Dokumentáció
+# Searchable Select - Development Documentation
 
-## 📋 Projekt Áttekintés
+## 📋 Project Overview
 
-**Név**: Searchable Select
-**Verzió**: 1.0.0 (Első hivatalos kiadás)
-**Dátum**: 2025-01-14
-**Típus**: Chrome Extension (Manifest V3)
-**Cél**: Klasszikus HTML `<select>` elemek átalakítása kereshetővé
+**Name**: Searchable Select
+**Version**: 1.0.0 (First official release)
+**Date**: 2025-01-14
+**Type**: Chrome Extension (Manifest V3)
+**Goal**: Transform classic HTML `<select>` elements into searchable dropdowns
 
-> **Megjegyzés**: Ez a fejlesztési napló dokumentálja a teljes fejlesztési folyamatot, beleértve a korai kísérleti verziókat is. A végleges kiadott verzió az 1.0.0, amely az első hivatalos, nyilvánosan elérhető verzió.
-
----
-
-## 🎯 Főbb Funkciók
-
-### Alapfunkció
-- Automatikusan észleli és átalakítja a natív HTML `<select>` elemeket
-- Valós idejű keresés a dropdown opciók között
-- Billentyűzet navigáció (fel/le nyíl, Enter)
-- Működik dinamikus tartalommal (AJAX, SPA-k)
-- Iframe támogatás
-
-### Beállítások
-- **Nyelv választás**: 10 nyelv támogatása
-- **Domain szűrés**: Engedélyezés/tiltás specifikus domaineken
-- **Debug mód**: Fejlesztői konzol naplózás
-- Szép, modern beállítások felület
-
-### Technikai Jellemzők
-- Manifest V3 kompatibilis
-- Choices.js library alapú
-- MutationObserver a dinamikus tartalom figyelésére
-- WeakSet a konvertált elemek nyomon követésére
-- Teljes i18n támogatás
+> **Note**: This development log documents the entire development process, including early experimental versions. The final released version is 1.0.0, which is the first official, publicly available version.
 
 ---
 
-## 📅 Fejlesztési Kronológia
+## 🎯 Main Features
 
-### Fejlesztési Folyamat Áttekintése
+### Core Functionality
+- Automatically detects and transforms native HTML `<select>` elements
+- Real-time search through dropdown options
+- Keyboard navigation (up/down arrows, Enter)
+- Works with dynamic content (AJAX, SPAs)
+- Iframe support
 
-A projekt fejlesztése során számos iteráción ment keresztül. Bár belső verziószámok (v3.x.x) voltak használatban a fejlesztés során, ezek csak kísérleti változatok voltak. **Az 1.0.0 az első hivatalos, stabil és publikált verzió**.
+### Settings
+- **Language Selection**: Support for 10 languages
+- **Domain Filtering**: Enable/disable on specific domains
+- **Debug Mode**: Developer console logging
+- Beautiful, modern settings interface
 
-### Kezdeti Állapot (Korai kísérleti fázis)
-- Korábbi munkamenetből megörökölt alapkód
-- `searchResultLimit: 1000` volt beállítva
-- W3Schools Tryit Editor iframe-jében nem működött teljesen
-- Csak magyar nyelv támogatás
-- Nincs donate funkció
-- Debug logok alapértelmezetten láthatóak voltak
+### Technical Features
+- Manifest V3 compatible
+- Based on Choices.js library
+- MutationObserver for dynamic content monitoring
+- WeakSet for tracking converted elements
+- Full i18n support
 
-### Fejlesztési Lépések
+---
 
-#### 1. Infinity limit teszt
-- `searchResultLimit` átállítva `1000` → `Infinity`
-- Cél: Minden találat megjelenítése korlátozás nélkül
+## 📅 Development Timeline
+
+### Development Process Overview
+
+The project went through numerous iterations during development. Although internal version numbers (v3.x.x) were used during development, these were only experimental versions. **Version 1.0.0 is the first official, stable, and published release**.
+
+### Initial State (Early experimental phase)
+- Inherited base code from previous work session
+- `searchResultLimit: 1000` was set
+- Didn't work completely in W3Schools Tryit Editor iframe
+- Only Hungarian language support
+- No donate functionality
+- Debug logs were visible by default
+
+### Development Steps
+
+#### 1. Infinity limit test
+- `searchResultLimit` changed from `1000` → `Infinity`
+- Goal: Display all results without limitation
 
 #### 2. W3Schools iframe debug
-Többszöri próbálkozás az iframe támogatás javítására:
-- **v3.5.5-3.5.9**: Különböző script injection módszerek
+Multiple attempts to improve iframe support:
+- **v3.5.5-3.5.9**: Various script injection methods
   - External script src
-  - setTimeout késleltetések (50ms, 200ms)
-  - Polling mechanizmus
+  - setTimeout delays (50ms, 200ms)
+  - Polling mechanism
   - Inline script injection
-  - Blob URL megoldás
-- **Probléma**: Content Security Policy (CSP) blokkolja az összes injection módszert
-- **Megoldás v3.6.0**: Parent window Choices osztály használata, csak CSS injection az iframe-be
-- **Korlátozás**: Dropdown renderelődik, de click event-ek nem működnek cross-document miatt
-- **Elfogadás**: Dokumentálva Known Limitations-ként
+  - Blob URL solution
+- **Problem**: Content Security Policy (CSP) blocks all injection methods
+- **Solution v3.6.0**: Use parent window Choices class, only CSS injection into iframe
+- **Limitation**: Dropdown renders, but click events don't work due to cross-document issues
+- **Acceptance**: Documented as Known Limitations
 
-#### 3. Debug log tisztítás
-- Új `debugLog()` függvény létrehozása
-- Minden `console.log` → `debugLog` csere
-- W3Schools specifikus auto-logging eltávolítása
-- Verzió log eltávolítása a konzoból
+#### 3. Debug log cleanup
+- Created new `debugLog()` function
+- All `console.log` → `debugLog` replacement
+- Removed W3Schools-specific auto-logging
+- Removed version log from console
 
-#### 4. Donate gombok hozzáadása
-- PayPal.me linkek a beállítások oldalra
-- 4 összeg: $1, $2, $5 (popular), $10
-- Gradient stílusú gombok hover effekttel
-- "⭐ Popular" badge a $5-ös gombon
+#### 4. Adding donate buttons
+- PayPal.me links on settings page
+- 4 amounts: $1, $2, $5 (popular), $10
+- Gradient-styled buttons with hover effect
+- "⭐ Popular" badge on $5 button
 
-#### 5. Verzió finalizálás
-- Belső fejlesztési verziók helyett hivatalos `1.0.0` kiadás
-- Ez az első nyilvánosan elérhető, stabil verzió
+#### 5. Version finalization
+- Official `1.0.0` release instead of internal development versions
+- This is the first publicly available, stable version
 
-### Internacionalizáció (i18n)
+### Internationalization (i18n)
 
-#### 6. Első lépések - Magyar és Angol
-- `_locales/hu/messages.json` létrehozása
-- `_locales/en/messages.json` létrehozása
-- `i18n.js` helper script (DOM alapú fordítás)
-- `manifest.json` frissítés: `__MSG_extName__`, `default_locale: "hu"`
-- `options.html` frissítés: `data-i18n` attribútumok
-- `options.js` részleges frissítés: `chrome.i18n.getMessage()`
+#### 6. First steps - Hungarian and English
+- Created `_locales/hu/messages.json`
+- Created `_locales/en/messages.json`
+- `i18n.js` helper script (DOM-based translation)
+- Updated `manifest.json`: `__MSG_extName__`, `default_locale: "hu"`
+- Updated `options.html`: `data-i18n` attributes
+- Partial update to `options.js`: `chrome.i18n.getMessage()`
 
-#### 7. options.js teljes i18n
-- `saveSettings()` frissítés
-- `resetSettings()` frissítés
-- `updateDomainCount()` frissítés
-- Minden üzenet használja a `chrome.i18n.getMessage()`
+#### 7. Complete i18n for options.js
+- Updated `saveSettings()`
+- Updated `resetSettings()`
+- Updated `updateDomainCount()`
+- All messages use `chrome.i18n.getMessage()`
 
 #### 8. content.js i18n
-- Choices.js konfigurációs stringek (searchPlaceholder, noResults, noChoices, loading)
-- `getLocalizedMessage()` async függvény létrehozása
-- `convertSelect()` async-re alakítás
-- iframe konverzió frissítése
+- Choices.js configuration strings (searchPlaceholder, noResults, noChoices, loading)
+- Created `getLocalizedMessage()` async function
+- Converted `convertSelect()` to async
+- Updated iframe conversion
 
-### Nyelv Választó Implementálás
+### Language Selector Implementation
 
-#### 9. i18n-manager.js létrehozása
-- `getCurrentLanguage()`: Nyelv lekérése storage-ből
-- `setLanguage()`: Nyelv mentése
-- `getTranslatedMessage()`: Fordítás fetch-elése JSON-ből
-- `applyTranslations()`: DOM frissítés
+#### 9. Creating i18n-manager.js
+- `getCurrentLanguage()`: Get language from storage
+- `setLanguage()`: Save language
+- `getTranslatedMessage()`: Fetch translation from JSON
+- `applyTranslations()`: Update DOM
 
-#### 10. options.html frissítés
-- Új "Nyelv beállítások" szekció a tetején
+#### 10. Updating options.html
+- New "Language settings" section at the top
 - Language select dropdown
-- CSS stílus a select elemhez
+- CSS styling for select element
 
-#### 11. options.js nyelvváltás
-- Nyelv betöltése oldal betöltéskor
+#### 11. Language switching in options.js
+- Load language on page load
 - Language change event listener
-- Tabok értesítése nyelv változásról
-- Settings mentéskor nyelv küldése
+- Notify tabs about language change
+- Send language when saving settings
 
-#### 12. content.js nyelv kezelés
-- `language` hozzáadva settings-hez
-- `languageChanged` üzenet kezelése
-- Oldal újratöltés megerősítés új nyelven
+#### 12. Language handling in content.js
+- Added `language` to settings
+- Handle `languageChanged` message
+- Page reload confirmation in new language
 
-### Több Nyelv Hozzáadása
+### Adding More Languages
 
-#### 13. 8 új nyelv implementálása
-Létrehozva `_locales/` mappák és `messages.json` fájlok:
-- 🇩🇪 Német (de)
-- 🇫🇷 Francia (fr)
-- 🇪🇸 Spanyol (es)
-- 🇮🇹 Olasz (it)
-- 🇵🇹 Portugál (pt)
-- 🇷🇺 Orosz (ru)
-- 🇯🇵 Japán (ja)
-- 🇨🇳 Kínai egyszerűsített (zh_CN)
+#### 13. Implementing 8 new languages
+Created `_locales/` folders and `messages.json` files:
+- 🇩🇪 German (de)
+- 🇫🇷 French (fr)
+- 🇪🇸 Spanish (es)
+- 🇮🇹 Italian (it)
+- 🇵🇹 Portuguese (pt)
+- 🇷🇺 Russian (ru)
+- 🇯🇵 Japanese (ja)
+- 🇨🇳 Chinese Simplified (zh_CN)
 
-Minden nyelvhez:
-- Teljes `messages.json` (~40 kulcs)
-- Összes UI szöveg lefordítva
-- Nyelv nevek hozzáadva magyar és angol fájlokhoz
+For each language:
+- Complete `messages.json` (~40 keys)
+- All UI text translated
+- Language names added to Hungarian and English files
 
-#### 14. JSON validálás
-- **Hiba**: Kínai fájlban `"` és `"` karakterek (kínai idézőjelek)
-- **Javítás**: Escape-elés `\"` formátumban
-- Minden nyelvi fájl validálva: `python3 -m json.tool`
+#### 14. JSON validation
+- **Error**: Chinese file had `"` and `"` characters (Chinese quotation marks)
+- **Fix**: Escaping as `\"`
+- All language files validated: `python3 -m json.tool`
 
-### Chrome Web Store Előkészítés
+### Chrome Web Store Preparation
 
-#### 15. Ikonok generálása
-- `icon.svg` forrás (lila-rózsaszín gradient, dropdown + nagyító)
-- PNG konverziók ImageMagick-kel:
-  - `icon16.png` (16x16) - eszköztár
-  - `icon48.png` (48x48) - bővítmények oldal
+#### 15. Icon generation
+- `icon.svg` source (purple-pink gradient, dropdown + magnifying glass)
+- PNG conversions with ImageMagick:
+  - `icon16.png` (16x16) - toolbar
+  - `icon48.png` (48x48) - extensions page
   - `icon128.png` (128x128) - Web Store
 
-#### 16. Promóciós képek
-- `promo-tile.svg` → `promo-tile-440x280.png` (kis csempe)
-- `marquee.svg` → `marquee-1400x560.png` és `marquee-920x680.png`
-- Gradient háttér, ikon, szöveges felsorolás
+#### 16. Promotional images
+- `promo-tile.svg` → `promo-tile-440x280.png` (small tile)
+- `marquee.svg` → `marquee-1400x560.png` and `marquee-920x680.png`
+- Gradient background, icon, text list
 
-#### 17. Képernyőképek generálása
-3 SVG mockup készítése és PNG konverzió:
-- **Screenshot 1**: Keresés működés közben (dropdown + "uni" szűrés)
-- **Screenshot 2**: Beállítások oldal teljes nézet
-- **Screenshot 3**: Előtte/Utána összehasonlítás
+#### 17. Screenshot generation
+Created 3 SVG mockups and PNG conversions:
+- **Screenshot 1**: Search in action (dropdown + "uni" filter)
+- **Screenshot 2**: Full settings page view
+- **Screenshot 3**: Before/After comparison
 
-#### 18. Store leírás
-- `STORE_DESCRIPTION.md` létrehozása:
-  - Rövid leírás (132 karakter)
-  - Részletes leírás
-  - Funkciók, használati esetek
-  - Technikai jellemzők
-  - Adatvédelmi szabályzat
-  - Címkék, kategória
+#### 18. Store description
+- Created `STORE_DESCRIPTION.md`:
+  - Short description (132 characters)
+  - Detailed description
+  - Features, use cases
+  - Technical characteristics
+  - Privacy policy
+  - Tags, category
 
-### Finomhangolás
+### Fine-tuning
 
-#### 19. Natív select tisztázás
-Minden anyag frissítése, hogy világos legyen: **csak natív HTML `<select>` elemekkel működik**
+#### 19. Native select clarification
+Updated all materials to make it clear: **works only with native HTML `<select>` elements**
 
-**Frissített fájlok:**
+**Updated files:**
 - `STORE_DESCRIPTION.md`: "Works with traditional HTML select boxes"
-- `_locales/hu/messages.json`: "Csak natív <select> tagekkel működik"
+- `_locales/hu/messages.json`: "Works only with native <select> tags"
 - `_locales/en/messages.json`: "Works only with native <select> tags"
-- Minden SVG grafika szövege
+- All SVG graphics text
 
-**Frissített képek:**
+**Updated images:**
 - `promo-tile.svg`: "Search in HTML dropdowns"
 - `marquee.svg`: "Works with native HTML <select> tags"
 - `screenshot1.svg`: "HTML select boxes"
 - `screenshot2.svg`: "native HTML select tags"
 - `screenshot3.svg`: "Standard HTML Select" vs "Enhanced HTML Select"
 
-#### 20. Promo tile szöveg javítás
-- Eredeti: "Make HTML select boxes searchable" (kilógott)
-- Javítva: "Search in HTML dropdowns" (rövidebb, belefér)
+#### 20. Promo tile text fix
+- Original: "Make HTML select boxes searchable" (too long)
+- Fixed: "Search in HTML dropdowns" (shorter, fits)
 
-#### 21. Dokumentációk
-- `CHROME_WEBSTORE_ASSETS.md`: Összes asset felsorolása, követelmények
-- `UPLOAD_INSTRUCTIONS.md`: Részletes feltöltési útmutató
-- `DEVELOPMENT_LOG.md`: Ez a fájl
+#### 21. Documentation
+- `CHROME_WEBSTORE_ASSETS.md`: List of all assets, requirements
+- `UPLOAD_INSTRUCTIONS.md`: Detailed upload guide
+- `DEVELOPMENT_LOG.md`: This file
 
-#### 22. Végleges package
+#### 22. Final package
 - `searchable-select-v1.0.0.zip` (63 KB)
-- Tartalmaz mindent: kód, ikonok, 10 nyelv
-- Kizár: SVG forrásokat, dokumentációt, demo fájlokat
+- Contains everything: code, icons, 10 languages
+- Excludes: SVG sources, documentation, demo files
 
 ---
 
-## 📁 Fájlstruktúra
+## 📁 File Structure
 
 ```
 old-select-search/
@@ -265,7 +265,7 @@ old-select-search/
 
 ---
 
-## 🛠️ Technikai Implementáció
+## 🛠️ Technical Implementation
 
 ### manifest.json
 ```json
@@ -292,49 +292,49 @@ old-select-search/
 }
 ```
 
-### content.js főbb funkciók
-- `debugLog()`: Kondicionális logging
-- `loadSettings()`: Storage sync beállítások betöltése
-- `isCurrentDomainAllowed()`: Domain whitelist ellenőrzés
-- `getLocalizedMessage()`: Async fordítás betöltés
-- `convertSelect()`: Select elem Choices.js-re alakítás
-- `initObserver()`: MutationObserver dinamikus tartalom figyelésére
-- `processFrame()`: Iframe select elemek kezelése
+### content.js main functions
+- `debugLog()`: Conditional logging
+- `loadSettings()`: Load settings from storage sync
+- `isCurrentDomainAllowed()`: Domain whitelist check
+- `getLocalizedMessage()`: Async translation loading
+- `convertSelect()`: Convert select element to Choices.js
+- `initObserver()`: MutationObserver for dynamic content monitoring
+- `processFrame()`: Handle iframe select elements
 
 ### i18n-manager.js
-- Fetch-eli a `_locales/{lang}/messages.json` fájlokat
-- Placeholder helyettesítés (`$1`, `$COUNT$`)
-- DOM frissítés `data-i18n` attribútumok alapján
-- Export: `window.i18nManager` objektum
+- Fetches `_locales/{lang}/messages.json` files
+- Placeholder replacement (`$1`, `$COUNT$`)
+- DOM update based on `data-i18n` attributes
+- Export: `window.i18nManager` object
 
 ### options.js
-- Chrome Storage API használat
-- Nyelv váltás + fordítások frissítése
-- Domain lista kezelés (wildcard támogatás)
-- Tab üzenetek küldése beállítás változáskor
+- Chrome Storage API usage
+- Language switching + translation updates
+- Domain list management (wildcard support)
+- Send messages to tabs on settings change
 
 ---
 
-## 🎨 Design Rendszer
+## 🎨 Design System
 
-### Színpaletta
+### Color Palette
 ```css
-/* Főszínek */
+/* Main colors */
 --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 --accent-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
 
-/* Szöveg */
+/* Text */
 --text-dark: #333;
 --text-medium: #666;
 --text-light: #999;
 
-/* Háttér */
+/* Background */
 --bg-light: #f8f9fa;
 --bg-white: #ffffff;
 --border: #e0e0e0;
 ```
 
-### Tipográfia
+### Typography
 - Font: `-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif`
 - Heading: 28-72px, bold
 - Body: 14-18px, regular/medium
@@ -342,9 +342,9 @@ old-select-search/
 
 ---
 
-## 🌍 Támogatott Nyelvek
+## 🌍 Supported Languages
 
-| Kód | Nyelv | Fordítás állapota |
+| Code | Language | Translation Status |
 |-----|-------|-------------------|
 | hu | Magyar | ✅ 100% |
 | en | English | ✅ 100% |
@@ -359,110 +359,110 @@ old-select-search/
 
 ---
 
-## 🐛 Ismert Korlátozások
+## 🐛 Known Limitations
 
-### 1. Strict CSP Környezetek
-- **Probléma**: Egyes iframe-ek (pl. W3Schools Tryit) strict Content Security Policy-val rendelkeznek
-- **Hatás**: Script injection blokkolva
-- **Megoldás**: Parent window Choices használata + CSS injection
-- **Korlátozás**: Dropdown renderelődik, de interakció korlátozott
+### 1. Strict CSP Environments
+- **Problem**: Some iframes (e.g. W3Schools Tryit) have strict Content Security Policy
+- **Effect**: Script injection blocked
+- **Solution**: Use parent window Choices + CSS injection
+- **Limitation**: Dropdown renders, but interaction is limited
 
-### 2. Cross-Origin Iframe-ek
-- **Probléma**: CORS védelem
-- **Hatás**: Nem lehet elérni a cross-origin iframe tartalmát
-- **Megoldás**: Nincs, biztonsági korlátozás
+### 2. Cross-Origin Iframes
+- **Problem**: CORS protection
+- **Effect**: Cannot access cross-origin iframe content
+- **Solution**: None, security restriction
 
-### 3. Custom Dropdown Library-k
-- **Probléma**: React Select, Vue Select, Semantic UI stb.
-- **Hatás**: Ezek már saját keresési funkciókkal rendelkeznek
-- **Megoldás**: Szándékosan nem módosítjuk őket (csak natív `<select>`)
-
----
-
-## 📊 Statisztikák
-
-### Kód Méret
-- `content.js`: ~25 KB (79% tömörítés ZIP-ben)
-- `options.js`: ~6 KB (76% tömörítés)
-- `choices.min.js`: ~70 KB (73% tömörítés)
-- Összesen ZIP: 63 KB
-
-### Támogatott Nyelvek
-- 10 nyelv
-- ~40 fordítási kulcs nyelvenként
-- 400+ fordított string összesen
-
-### Grafikai Anyagok
-- 3 ikon méret (16, 48, 128)
-- 3 promóciós kép (440x280, 920x680, 1400x560)
-- 3 képernyőkép (1280x800)
+### 3. Custom Dropdown Libraries
+- **Problem**: React Select, Vue Select, Semantic UI, etc.
+- **Effect**: These already have their own search functionality
+- **Solution**: Intentionally not modifying them (only native `<select>`)
 
 ---
 
-## ✅ Tesztelés
+## 📊 Statistics
 
-### Manuális Tesztek
-- ✅ Chrome betöltés (load unpacked)
-- ✅ Manifest validálás
-- ✅ JSON nyelvfájlok validálása
-- ✅ Select konverzió különböző oldalakon
-- ✅ Beállítások oldal működés
-- ✅ Nyelv váltás
-- ✅ Domain szűrés
-- ✅ Debug mód
+### Code Size
+- `content.js`: ~25 KB (79% compression in ZIP)
+- `options.js`: ~6 KB (76% compression)
+- `choices.min.js`: ~70 KB (73% compression)
+- Total ZIP: 63 KB
 
-### Kompatibilitás
-- ✅ Chrome (elsődleges)
-- ✅ Edge (Chromium-alapú)
-- ✅ Brave (Chromium-alapú)
-- ⚠️ Firefox (Manifest V3 támogatás limitált)
+### Supported Languages
+- 10 languages
+- ~40 translation keys per language
+- 400+ translated strings total
+
+### Graphic Assets
+- 3 icon sizes (16, 48, 128)
+- 3 promotional images (440x280, 920x680, 1400x560)
+- 3 screenshots (1280x800)
 
 ---
 
-## 🚀 Kiadás
+## ✅ Testing
+
+### Manual Tests
+- ✅ Chrome loading (load unpacked)
+- ✅ Manifest validation
+- ✅ JSON language file validation
+- ✅ Select conversion on different pages
+- ✅ Settings page functionality
+- ✅ Language switching
+- ✅ Domain filtering
+- ✅ Debug mode
+
+### Compatibility
+- ✅ Chrome (primary)
+- ✅ Edge (Chromium-based)
+- ✅ Brave (Chromium-based)
+- ⚠️ Firefox (Manifest V3 support limited)
+
+---
+
+## 🚀 Release
 
 ### v1.0.0 (2025-01-14)
-**Első hivatalos kiadás - GitHub és Chrome Web Store**
+**First official release - GitHub and Chrome Web Store**
 
-Funkciók:
-- Natív HTML select elemek kereshetővé tétele
-- 10 nyelv támogatása
-- Domain szűrés
-- Debug mód
-- Modern beállítások UI
-- PayPal donate gombok
+Features:
+- Native HTML select elements made searchable
+- 10 language support
+- Domain filtering
+- Debug mode
+- Modern settings UI
+- PayPal donate buttons
 
-Technikai:
+Technical:
 - Manifest V3
 - Choices.js v11.1.0
 - MutationObserver
 - Chrome Storage Sync API
-- Teljes i18n
+- Full i18n
 
 ---
 
-## 📞 Kapcsolat & Támogatás
+## 📞 Contact & Support
 
 - **Email**: izll81@gmail.com
 - **PayPal**: https://www.paypal.com/paypalme/izll81/
-- **Chrome Web Store**: (hamarosan)
+- **Chrome Web Store**: (coming soon)
 
 ---
 
-## 📝 Licensz
+## 📝 License
 
-(Nincs megadva - adjál hozzá LICENSE fájlt ha szükséges)
+(Not specified - add LICENSE file if needed)
 
 ---
 
-## 🙏 Köszönetnyilvánítás
+## 🙏 Acknowledgments
 
 - **Choices.js**: Josh Johnson (https://github.com/Choices-js/Choices)
-- **ImageMagick**: Képkonverziók
+- **ImageMagick**: Image conversions
 - **Chrome Extensions API**: Google
 
 ---
 
-**Utolsó frissítés**: 2025-01-14
-**Dokumentáció verziója**: 1.0
-**Státusz**: ✅ KÉSZ A PUBLIKÁLÁSRA
+**Last updated**: 2025-01-14
+**Documentation version**: 1.0
+**Status**: ✅ READY FOR PUBLICATION

@@ -1,10 +1,10 @@
-# Fejlesztői dokumentáció - Searchable Select
+# Developer Documentation - Searchable Select
 
-Ez a dokumentum a bővítmény belső működését és fejlesztési folyamatát írja le.
+This document describes the internal workings of the extension and the development process.
 
-## Architektúra áttekintés
+## Architecture Overview
 
-### Komponensek
+### Components
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -33,35 +33,35 @@ Ez a dokumentum a bővítmény belső működését és fejlesztési folyamatát
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### Fő folyamat
+### Main Process
 
-1. **Inicializáció** (`document_end`)
-   - Beállítások betöltése Chrome Storage-ból
-   - Domain ellenőrzés
-   - Select elemek keresése és konvertálása
+1. **Initialization** (`document_end`)
+   - Load settings from Chrome Storage
+   - Domain check
+   - Find and convert select elements
 
-2. **DOM megfigyelés** (MutationObserver)
-   - Új select elemek automatikus észlelése
-   - Debouncing (10ms) a teljesítmény optimalizáláshoz
-   - Többszintű retry mechanizmus (50ms, 150ms, 300ms, 500ms)
+2. **DOM Observation** (MutationObserver)
+   - Automatic detection of new select elements
+   - Debouncing (10ms) for performance optimization
+   - Multi-level retry mechanism (50ms, 150ms, 300ms, 500ms)
 
-3. **Frame kezelés**
-   - Rekurzív frame feldolgozás
-   - Choices.js dinamikus betöltése minden frame-be
-   - Frame-enkénti MutationObserver
+3. **Frame Handling**
+   - Recursive frame processing
+   - Dynamic loading of Choices.js into each frame
+   - Per-frame MutationObserver
 
-4. **AJAX/JSF támogatás**
+4. **AJAX/JSF Support**
    - JSF AJAX hook (`jsf.ajax.request`)
-   - RichFaces esemény listener-ek
-   - XMLHttpRequest globális monitorozás
+   - RichFaces event listeners
+   - Global XMLHttpRequest monitoring
 
-## Kód struktúra (content.js)
+## Code Structure (content.js)
 
-### 1. Változók és állapot kezelés
+### 1. Variables and State Management
 
 ```javascript
-const convertedSelects = new WeakSet(); // Konvertált elemek nyilvántartása
-const processedFrames = new WeakSet(); // Feldolgozott frame-ek
+const convertedSelects = new WeakSet(); // Track converted elements
+const processedFrames = new WeakSet(); // Processed frames
 
 let settings = {
   enableAllDomains: true,
@@ -69,12 +69,12 @@ let settings = {
 };
 ```
 
-**Miért WeakSet?**
-- Automatikus memória felszabadítás
-- Nincs memory leak
-- Gyors lookup (O(1))
+**Why WeakSet?**
+- Automatic memory cleanup
+- No memory leaks
+- Fast lookup (O(1))
 
-### 2. Domain ellenőrzés
+### 2. Domain Check
 
 ```javascript
 function isCurrentDomainAllowed() {
@@ -84,28 +84,28 @@ function isCurrentDomainAllowed() {
 
   return settings.allowedDomains.some(domain => {
     if (domain.includes('*')) {
-      // Wildcard támogatás: *.example.com
+      // Wildcard support: *.example.com
       const pattern = domain.replace(/\*/g, '.*').replace(/\./g, '\\.');
       const regex = new RegExp('^' + pattern + '$', 'i');
       return regex.test(currentHostname);
     }
 
-    // Pontos egyezés vagy aldomain
+    // Exact match or subdomain
     return currentHostname === domain || currentHostname.endsWith('.' + domain);
   });
 }
 ```
 
-**Támogatott formátumok:**
+**Supported formats:**
 - `example.com` → `example.com`, `sub.example.com`
 - `*.example.com` → `sub.example.com`, `a.b.example.com`
-- `sub.example.com` → csak `sub.example.com`
+- `sub.example.com` → only `sub.example.com`
 
-### 3. Select konverzió
+### 3. Select Conversion
 
 ```javascript
 function convertSelect(selectElement) {
-  // Duplikált konverzió elkerülése
+  // Prevent duplicate conversion
   if (convertedSelects.has(selectElement)) return;
   if (selectElement.classList.contains('choices__input')) return;
   if (!document.body.contains(selectElement)) return;
@@ -113,11 +113,11 @@ function convertSelect(selectElement) {
   try {
     const choices = new Choices(selectElement, {
       searchEnabled: true,
-      searchPlaceholderValue: 'Keresés...',
-      itemSelectText: '', // Üres - nem mutat felesleges szöveget
-      noResultsText: 'Nincs találat',
-      noChoicesText: 'Nincs választható opció',
-      loadingText: 'Betöltés...',
+      searchPlaceholderValue: 'Search...',
+      itemSelectText: '', // Empty - no unnecessary text
+      noResultsText: 'No results found',
+      noChoicesText: 'No choices to choose from',
+      loadingText: 'Loading...',
       removeItemButton: false,
       shouldSort: false,
       position: 'auto',
@@ -126,17 +126,17 @@ function convertSelect(selectElement) {
 
     convertedSelects.add(selectElement);
   } catch (error) {
-    console.error('Searchable Select: Hiba:', error);
+    console.error('Searchable Select: Error:', error);
   }
 }
 ```
 
-**Fontos konfigurációk:**
-- `itemSelectText: ''` → nincs felesleges UI szöveg
-- `shouldSort: false` → eredeti sorrend megtartása
-- `allowHTML: false` → XSS védelem
+**Important configurations:**
+- `itemSelectText: ''` → no unnecessary UI text
+- `shouldSort: false` → preserve original order
+- `allowHTML: false` → XSS protection
 
-### 4. MutationObserver (Dinamikus elemek)
+### 4. MutationObserver (Dynamic Elements)
 
 ```javascript
 let debounceTimer = null;
@@ -148,11 +148,11 @@ const observer = new MutationObserver(function(mutations) {
     mutations.forEach(function(mutation) {
       mutation.addedNodes.forEach(function(node) {
         if (node.nodeType === 1) {
-          // Közvetlen select elem
+          // Direct select element
           if (node.tagName === 'SELECT') {
             scheduleConversion(node);
           }
-          // Select elemek a node-on belül
+          // Select elements within the node
           const selects = node.querySelectorAll('select');
           selects.forEach(scheduleConversion);
         }
@@ -162,38 +162,38 @@ const observer = new MutationObserver(function(mutations) {
 });
 ```
 
-**Miért debouncing?**
-- Csökkenti a CPU használatot
+**Why debouncing?**
+- Reduces CPU usage
 - Batch processing
-- Elkerüli a duplikált konverziókat
+- Avoids duplicate conversions
 
-### 5. Többszintű retry mechanizmus
+### 5. Multi-level Retry Mechanism
 
 ```javascript
 function scheduleConversion(selectElement) {
-  // Azonnali próbálkozás
+  // Immediate attempt
   convertSelect(selectElement);
 
-  // 1. retry - 50ms
+  // 1st retry - 50ms
   setTimeout(() => convertSelect(selectElement), 50);
 
-  // 2. retry - 150ms
+  // 2nd retry - 150ms
   setTimeout(() => convertSelect(selectElement), 150);
 
-  // 3. retry - 300ms
+  // 3rd retry - 300ms
   setTimeout(() => convertSelect(selectElement), 300);
 
-  // 4. retry - 500ms
+  // 4th retry - 500ms
   setTimeout(() => convertSelect(selectElement), 500);
 }
 ```
 
-**Miért többszintű?**
-- Különböző AJAX időzítések
-- Lassú renderelés kezelése
-- Biztosítja a konverziót
+**Why multi-level?**
+- Different AJAX timings
+- Handles slow rendering
+- Ensures conversion
 
-### 6. Frame kezelés
+### 6. Frame Handling
 
 ```javascript
 function processFrame(frame) {
@@ -203,18 +203,18 @@ function processFrame(frame) {
   const frameWindow = frame.contentWindow;
 
   if (!frameDoc || !frameWindow) {
-    console.log('Frame nem elérhető (CORS?)');
+    console.log('Frame not accessible (CORS?)');
     return;
   }
 
-  // Choices.js betöltés ellenőrzése
+  // Check if Choices.js is loaded
   const choicesExists = typeof frameWindow.Choices !== 'undefined';
 
   if (!choicesExists) {
-    // Dinamikus betöltés
+    // Dynamic loading
     injectChoicesIntoFrame(frame, frameDoc, frameWindow);
   } else {
-    // Már be van töltve
+    // Already loaded
     processFrameSelects(frameDoc, frameWindow);
   }
 
@@ -222,7 +222,7 @@ function processFrame(frame) {
 }
 ```
 
-### 7. Choices.js dinamikus injektálás
+### 7. Dynamic Choices.js Injection
 
 ```javascript
 function injectChoicesIntoFrame(frame, frameDoc, frameWindow) {
@@ -230,24 +230,24 @@ function injectChoicesIntoFrame(frame, frameDoc, frameWindow) {
   const customCssUrl = chrome.runtime.getURL('custom-styles.css');
   const choicesJsUrl = chrome.runtime.getURL('choices.min.js');
 
-  // CSS betöltés
+  // Load CSS
   const choicesCssLink = frameDoc.createElement('link');
   choicesCssLink.rel = 'stylesheet';
   choicesCssLink.href = choicesCssUrl;
   frameDoc.head.appendChild(choicesCssLink);
 
-  // JS betöltés
+  // Load JS
   const choicesScript = frameDoc.createElement('script');
   choicesScript.src = choicesJsUrl;
   choicesScript.onload = function() {
-    console.log('Choices.js betöltve frame-be');
+    console.log('Choices.js loaded into frame');
     processFrameSelects(frameDoc, frameWindow);
   };
   frameDoc.head.appendChild(choicesScript);
 }
 ```
 
-### 8. JSF/RichFaces AJAX támogatás
+### 8. JSF/RichFaces AJAX Support
 
 ```javascript
 function setupJSFAjaxHook(doc, win) {
@@ -271,7 +271,7 @@ function setupJSFAjaxHook(doc, win) {
 }
 ```
 
-### 9. XHR globális monitorozás
+### 9. Global XHR Monitoring
 
 ```javascript
 function setupXHRMonitoring(doc, win) {
@@ -293,22 +293,22 @@ function setupXHRMonitoring(doc, win) {
 }
 ```
 
-## CSS override stratégia (custom-styles.css)
+## CSS Override Strategy (custom-styles.css)
 
-### Filozófia
+### Philosophy
 
-Minimális override-ok használata, hogy ne törjük el az eredeti megjelenést.
+Use minimal overrides to avoid breaking the original appearance.
 
-### Kulcsfontosságú override-ok
+### Key Overrides
 
 ```css
-/* Inline viselkedés */
+/* Inline behavior */
 .choices {
   display: inline-block !important;
   margin: 0 !important;
 }
 
-/* Automatikus méretezés */
+/* Automatic sizing */
 .choices__inner {
   padding: 0 !important;
   height: auto !important;
@@ -316,20 +316,20 @@ Minimális override-ok használata, hogy ne törjük el az eredeti megjelenést.
   width: auto !important;
 }
 
-/* Dropdown korlátlan szélesség */
+/* Unlimited dropdown width */
 .choices__list--dropdown {
   max-width: none !important;
   white-space: nowrap !important;
 }
 ```
 
-**Miért `!important`?**
-- Choices.js inline style-ok felülírása
-- Konzisztens megjelenés minden weboldalon
+**Why `!important`?**
+- Override Choices.js inline styles
+- Consistent appearance across all websites
 
-## Beállítások rendszer (options.js)
+## Settings System (options.js)
 
-### Storage struktúra
+### Storage Structure
 
 ```javascript
 {
@@ -342,10 +342,10 @@ Minimális override-ok használata, hogy ne törjük el az eredeti megjelenést.
 }
 ```
 
-### Szinkronizáció
+### Synchronization
 
-Chrome Storage Sync API használata:
-- Automatikus sync Google fiókkal
+Using Chrome Storage Sync API:
+- Automatic sync with Google account
 - Max 100KB storage
 - Max 8KB / item
 
@@ -354,113 +354,113 @@ chrome.storage.sync.set({
   enableAllDomains: true,
   allowedDomains: domains
 }, function() {
-  console.log('Beállítások mentve');
+  console.log('Settings saved');
 });
 ```
 
-## Teljesítmény optimalizálás
+## Performance Optimization
 
-### 1. WeakSet használata
-- Automatikus garbage collection
+### 1. WeakSet Usage
+- Automatic garbage collection
 - O(1) lookup
-- Nincs memory leak
+- No memory leaks
 
 ### 2. Debouncing
-- 10ms késleltetés a MutationObserver-ben
+- 10ms delay in MutationObserver
 - Batch processing
-- CPU használat csökkentése
+- Reduced CPU usage
 
-### 3. Többszintű retry
-- Csak szükséges esetekben fut le
-- Különböző időzítések különböző esetekre
+### 3. Multi-level Retry
+- Only runs when necessary
+- Different timings for different cases
 
-### 4. Try-catch blokkok
-- CORS problémák kezelése
-- Nem állítja le az egész bővítményt
+### 4. Try-catch Blocks
+- Handles CORS issues
+- Doesn't stop the entire extension
 
-## Tesztelés
+## Testing
 
-### Manuális tesztek
+### Manual Tests
 
-1. **Alap funkciók** (`test.html`)
-   - Egyszerű select
+1. **Basic Functions** (`test.html`)
+   - Simple select
    - Multi-select
    - Grouped select (optgroup)
 
-2. **AJAX funkciók** (`test-ajax.html`)
-   - innerHTML módszer
-   - createElement módszer
-   - Késleltetett betöltés
-   - setTimeout betöltés
+2. **AJAX Functions** (`test-ajax.html`)
+   - innerHTML method
+   - createElement method
+   - Delayed loading
+   - setTimeout loading
 
-3. **Frame tesztek**
+3. **Frame Tests**
    - JSF frameset
-   - Nested frame-ek
-   - Cross-domain iframe-ek (CORS teszt)
+   - Nested frames
+   - Cross-domain iframes (CORS test)
 
-### Hibakeresés
+### Debugging
 
 ```javascript
-// Console üzenetek:
-console.log('Searchable Select: Bővítmény inicializálva');
-console.log('Searchable Select: Konvertálva:', selectElement);
-console.log('Frame feldolgozva:', frame.name);
-console.error('Searchable Select: Hiba:', error);
+// Console messages:
+console.log('Searchable Select: Extension initialized');
+console.log('Searchable Select: Converted:', selectElement);
+console.log('Frame processed:', frame.name);
+console.error('Searchable Select: Error:', error);
 ```
 
-**DevTools használata:**
+**Using DevTools:**
 1. F12 → Console
-2. Keresd a "Searchable Select" prefix-szel kezdődő üzeneteket
-3. Ellenőrizd a network tab-ot Choices.js betöltéséhez
+2. Look for messages starting with "Searchable Select" prefix
+3. Check network tab for Choices.js loading
 
 ## Deployment
 
-### Bővítmény telepítése
+### Installing Extension
 
 1. `chrome://extensions/`
-2. Fejlesztői mód BE
-3. "Kicsomagolt bővítmény betöltése"
-4. Válaszd ki a projekt mappát
+2. Turn ON Developer mode
+3. "Load unpacked"
+4. Select the project folder
 
-### Bővítmény frissítése
+### Updating Extension
 
 1. `chrome://extensions/`
-2. Kattints a reload ikonra a bővítménynél
-3. Frissítsd a tesztoldalakat (F5)
+2. Click the reload icon for the extension
+3. Refresh test pages (F5)
 
-### Verzió frissítés
+### Version Update
 
-1. Módosítsd `manifest.json` version mezőjét
-2. Frissítsd `CHANGELOG.md`-t
-3. Frissítsd `README.md` "Legfrissebb változások" szekciót
+1. Modify the version field in `manifest.json`
+2. Update `CHANGELOG.md`
+3. Update the "Recent changes" section in `README.md`
 
-## Hibák és megoldások
+## Issues and Solutions
 
-### Probléma: "Choices is not defined"
-**Ok:** Choices.js nem töltődött be a frame-be
-**Megoldás:** Ellenőrizd a `web_accessible_resources` konfigurációt
+### Problem: "Choices is not defined"
+**Cause:** Choices.js not loaded into frame
+**Solution:** Check `web_accessible_resources` configuration
 
-### Probléma: CORS error frame-eknél
-**Ok:** Cross-domain iframe
-**Megoldás:** Try-catch blokk, graceful fail
+### Problem: CORS error in frames
+**Cause:** Cross-domain iframe
+**Solution:** Try-catch block, graceful fail
 
-### Probléma: Select nem konvertálódik
-**Ok:** Túl gyors DOM manipuláció
-**Megoldás:** Többszintű retry mechanizmus
+### Problem: Select not converting
+**Cause:** DOM manipulation too fast
+**Solution:** Multi-level retry mechanism
 
-## Továbbfejlesztési lehetőségek
+## Future Enhancement Opportunities
 
-1. **Unit tesztek** - Jest vagy Mocha használatával
-2. **E2E tesztek** - Puppeteer vagy Playwright
-3. **TypeScript migráció** - Jobb type safety
-4. **Build rendszer** - Webpack vagy Rollup
-5. **Minification** - Content script tömörítése
-6. **Internationalization** - Több nyelv támogatása
-7. **Theme support** - Dark mode, custom színek
+1. **Unit tests** - Using Jest or Mocha
+2. **E2E tests** - Puppeteer or Playwright
+3. **TypeScript migration** - Better type safety
+4. **Build system** - Webpack or Rollup
+5. **Minification** - Compress content script
+6. **Internationalization** - Support more languages
+7. **Theme support** - Dark mode, custom colors
 
-## Hasznos linkek
+## Useful Links
 
-- [Choices.js dokumentáció](https://github.com/choices-js/Choices)
+- [Choices.js documentation](https://github.com/choices-js/Choices)
 - [Chrome Extension API](https://developer.chrome.com/docs/extensions/reference/)
 - [Manifest V3 migration](https://developer.chrome.com/docs/extensions/mv3/intro/)
 - [MutationObserver MDN](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver)

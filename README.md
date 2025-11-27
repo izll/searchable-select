@@ -1,94 +1,94 @@
-# Searchable Select - Chrome Bővítmény
+# Searchable Select - Chrome Extension
 
-Egy egyszerű Chrome bővítmény, ami automatikusan kereshetővé konvertálja az összes HTML `<select>` elemet a weboldalon a SlimSelect könyvtár segítségével.
+A simple Chrome extension that automatically converts all HTML `<select>` elements on web pages to searchable ones using the SlimSelect library.
 
-## Verzió
+## Version
 
-**v1.0.2** - Szín és szélesség beállítások, AJAX javítások
+**v1.0.2** - Color and width settings, AJAX fixes
 
-Részletes változások: [CHANGELOG.md](CHANGELOG.md)
+Detailed changes: [CHANGELOG.md](CHANGELOG.md)
 
-## Funkciók
+## Features
 
-- ✅ Automatikusan felismeri és konvertálja az összes `<select>` elemet
-- 🔍 Keresés támogatás minden select-ben
-- ⚡ Támogatja a dinamikusan hozzáadott select elemeket (AJAX/JSF)
-- 📋 Működik egyszerű és többszörös select-ekkel
-- 📂 Támogatja a csoportosított opciókat (optgroup)
-- 🌍 **10 nyelv támogatása** (hu, en, de, fr, es, it, pt, ru, ja, zh_CN)
-- ⚙️ **Beállítások oldal domain szűréssel**
-- 🎯 **Wildcard támogatás domain megadáshoz** (pl. `*.google.com`)
-- 🎨 **Testreszabható kijelölési szín**
-- 📐 **Szélesség mód** - automatikus vagy eredeti szélesség
+- ✅ Automatically detects and converts all `<select>` elements
+- 🔍 Search support in all selects
+- ⚡ Supports dynamically added select elements (AJAX/JSF)
+- 📋 Works with simple and multiple selects
+- 📂 Supports grouped options (optgroup)
+- 🌍 **Support for 10 languages** (hu, en, de, fr, es, it, pt, ru, ja, zh_CN)
+- ⚙️ **Settings page with domain filtering**
+- 🎯 **Wildcard support for domain specification** (e.g., `*.google.com`)
+- 🎨 **Customizable selection color**
+- 📐 **Width mode** - automatic or original width
 
-## Telepítés
+## Installation
 
-1. **Töltsd le vagy klónozd a projektet:**
+1. **Download or clone the project:**
    ```bash
    git clone <repository-url>
    cd old-select-search
    ```
 
-2. **Nyisd meg a Chrome Extensions oldalt:**
-   - Nyisd meg a Chrome böngészőt
-   - Írd be a címsorba: `chrome://extensions/`
-   - Vagy menj a `Menü → További eszközök → Bővítmények` menüpontra
+2. **Open the Chrome Extensions page:**
+   - Open Chrome browser
+   - Type in the address bar: `chrome://extensions/`
+   - Or go to `Menu → More tools → Extensions`
 
-3. **Engedélyezd a Fejlesztői módot:**
-   - Kapcsold be a jobb felső sarokban a "Fejlesztői mód" kapcsolót
+3. **Enable Developer mode:**
+   - Turn on the "Developer mode" toggle in the top right corner
 
-4. **Töltsd be a bővítményt:**
-   - Kattints a "Kicsomagolt bővítmény betöltése" gombra
-   - Válaszd ki a projekt mappáját (`old-select-search`)
-   - A bővítmény megjelenik a listában
+4. **Load the extension:**
+   - Click the "Load unpacked" button
+   - Select the project folder (`old-select-search`)
+   - The extension will appear in the list
 
-## Használat
+## Usage
 
-### Alapértelmezett működés
+### Default behavior
 
-Alapértelmezetten a bővítmény **minden weboldalon** automatikusan működik.
+By default, the extension automatically works on **all websites**.
 
-1. **Telepítés után:**
-   - A bővítmény automatikusan elindul minden weboldalon
-   - Minden `<select>` elem kereshetővé válik
+1. **After installation:**
+   - The extension starts automatically on all websites
+   - All `<select>` elements become searchable
 
-2. **Tesztelés:**
-   - Nyisd meg a `test.html` fájlt egy böngészőben
-   - Láthatod a konvertált select elemeket keresési funkcióval
+2. **Testing:**
+   - Open the `test.html` file in a browser
+   - You can see the converted select elements with search functionality
 
-3. **Használat weboldalon:**
-   - Kattints egy select elemre
-   - Kezdj el gépelni az opcióban való kereséshez
-   - Az eredmények azonnal szűrődnek
+3. **Using on websites:**
+   - Click on a select element
+   - Start typing to search within options
+   - Results are filtered instantly
 
-### Beállítások (Domain szűrés)
+### Settings (Domain filtering)
 
-A bővítmény beállításait a következőképpen érheted el:
+You can access the extension settings as follows:
 
-1. **Nyisd meg a beállításokat:**
-   - Menj a `chrome://extensions/` oldalra
-   - Keresd meg a "Searchable Select" bővítményt
-   - Kattints a "Részletek" gombra
-   - Görgess le és kattints a "Bővítmény beállításai" linkre
+1. **Open settings:**
+   - Go to the `chrome://extensions/` page
+   - Find the "Searchable Select" extension
+   - Click the "Details" button
+   - Scroll down and click the "Extension options" link
 
-   **VAGY**
+   **OR**
 
-   - Jobb klikk a bővítmény ikonján a toolbar-on
-   - "Beállítások" menüpont
+   - Right-click the extension icon in the toolbar
+   - "Options" menu item
 
-2. **Domain szűrés beállítása:**
-   - **"Minden weboldalon engedélyezve"** toggle:
-     - BE: A bővítmény minden weboldalon működik (alapértelmezett)
-     - KI: Csak a megadott domaineken működik
+2. **Configure domain filtering:**
+   - **"Enabled on all websites"** toggle:
+     - ON: The extension works on all websites (default)
+     - OFF: Only works on specified domains
 
-   - **Domain lista:**
-     - Adj meg domain neveket soronként
-     - Támogatott formátumok:
-       - `example.com` - Pontos domain és aldomainek
-       - `*.example.com` - Minden aldomain (wildcard)
-       - `subdomain.example.com` - Konkrét aldomain
+   - **Domain list:**
+     - Enter domain names one per line
+     - Supported formats:
+       - `example.com` - Exact domain and subdomains
+       - `*.example.com` - All subdomains (wildcard)
+       - `subdomain.example.com` - Specific subdomain
 
-3. **Példa beállítások:**
+3. **Example settings:**
    ```
    google.com
    *.github.com
@@ -96,50 +96,50 @@ A bővítmény beállításait a következőképpen érheted el:
    localhost
    ```
 
-4. **Mentés:**
-   - Kattints a "Mentés" gombra
-   - A beállítások azonnal érvénybe lépnek
-   - A már megnyitott oldalakat frissíteni kell (F5)
+4. **Saving:**
+   - Click the "Save" button
+   - Settings take effect immediately
+   - Already open pages need to be refreshed (F5)
 
-## Fájlstruktúra
+## File structure
 
 ```
 old-select-search/
-├── manifest.json          # Chrome bővítmény konfiguráció (Manifest V3)
-├── content.js            # Fő script - select konverzió, AJAX/JSF támogatás, frame kezelés
-├── options.html          # Beállítások oldal UI
-├── options.js            # Beállítások oldal JavaScript logika
-├── slimselect.min.js     # SlimSelect v3.2.0 könyvtár (minified)
-├── slimselect.min.css    # SlimSelect alapértelmezett stílusok
-├── custom-styles.css     # Egyéni CSS override-ok (magasság, padding, dropdown)
-├── icon16.png           # Chrome extension ikon 16x16
-├── icon48.png           # Chrome extension ikon 48x48
-├── icon128.png          # Chrome extension ikon 128x128
-├── test.html            # Teszt oldal - alapvető példák
-├── test-ajax.html       # AJAX teszt oldal - dinamikus betöltés tesztelése
-├── README.md            # Dokumentáció (ez a fájl)
-└── CHANGELOG.md         # Részletes változások története
+├── manifest.json          # Chrome extension configuration (Manifest V3)
+├── content.js            # Main script - select conversion, AJAX/JSF support, frame handling
+├── options.html          # Settings page UI
+├── options.js            # Settings page JavaScript logic
+├── slimselect.min.js     # SlimSelect v3.2.0 library (minified)
+├── slimselect.min.css    # SlimSelect default styles
+├── custom-styles.css     # Custom CSS overrides (height, padding, dropdown)
+├── icon16.png           # Chrome extension icon 16x16
+├── icon48.png           # Chrome extension icon 48x48
+├── icon128.png          # Chrome extension icon 128x128
+├── test.html            # Test page - basic examples
+├── test-ajax.html       # AJAX test page - dynamic loading testing
+├── README.md            # Documentation (this file)
+└── CHANGELOG.md         # Detailed change history
 ```
 
-## Technológiák
+## Technologies
 
-- **SlimSelect v3.2.0** - Vanilla JavaScript select replacement könyvtár
-- **Chrome Manifest V3** - Legújabb Chrome extension API
-- **MutationObserver** - Dinamikus elemek figyelése
+- **SlimSelect v3.2.0** - Vanilla JavaScript select replacement library
+- **Chrome Manifest V3** - Latest Chrome extension API
+- **MutationObserver** - Monitoring dynamic elements
 
-## Hogyan működik?
+## How does it work?
 
-1. A `content.js` betöltődik minden weboldalon
-2. Megkeresi az összes `<select>` elemet
-3. Inicializálja őket a SlimSelect könyvtárral
-4. Beállít egy MutationObserver-t a dinamikusan hozzáadott select elemek figyelésére
-5. Az új select elemek automatikusan konvertálódnak
+1. The `content.js` loads on all web pages
+2. It finds all `<select>` elements
+3. Initializes them with the SlimSelect library
+4. Sets up a MutationObserver to watch for dynamically added select elements
+5. New select elements are automatically converted
 
-## Testreszabás
+## Customization
 
-### SlimSelect konfiguráció
+### SlimSelect configuration
 
-Ha módosítani szeretnéd a SlimSelect beállításokat, szerkeszd a `content.js` fájl convertSelect funkcióját:
+If you want to modify SlimSelect settings, edit the convertSelect function in the `content.js` file:
 
 ```javascript
 const slim = new SlimSelect({
@@ -147,8 +147,8 @@ const slim = new SlimSelect({
   settings: {
     showSearch: true,
     focusSearch: true,
-    searchPlaceholder: 'Keresés...',
-    searchText: 'Nincs találat',
+    searchPlaceholder: 'Search...',
+    searchText: 'No results',
     searchHighlight: true,
     closeOnSelect: true,
     allowDeselect: false,
@@ -158,19 +158,19 @@ const slim = new SlimSelect({
 });
 ```
 
-További beállítási lehetőségekért lásd a [SlimSelect dokumentációt](https://slimselectjs.com/).
+For more configuration options, see the [SlimSelect documentation](https://slimselectjs.com/).
 
-### CSS testreszabás
+### CSS customization
 
-A `custom-styles.css` fájl tartalmazza az egyéni stílusokat, amelyek felülírják a SlimSelect alapértelmezett megjelenését:
+The `custom-styles.css` file contains custom styles that override SlimSelect's default appearance:
 
-**Főbb stílusok:**
-- `.ss-main` - Főkonténer stílus (inline-flex, margin: 0)
-- `.ss-content` - Dropdown konténer (max-height, z-index)
-- `.ss-option` - Legördülő elemek (padding, hover effekt)
-- `.ss-search` - Keresőmező stílusok
+**Main styles:**
+- `.ss-main` - Main container style (inline-flex, margin: 0)
+- `.ss-content` - Dropdown container (max-height, z-index)
+- `.ss-option` - Dropdown items (padding, hover effect)
+- `.ss-search` - Search field styles
 
-**Kulcsfontosságú override-ok:**
+**Key overrides:**
 ```css
 .ss-main {
   display: inline-flex !important;
@@ -189,89 +189,89 @@ A `custom-styles.css` fájl tartalmazza az egyéni stílusokat, amelyek felülí
 }
 ```
 
-## Hibakeresés
+## Troubleshooting
 
-Ha a bővítmény nem működik:
+If the extension is not working:
 
-1. Ellenőrizd, hogy a bővítmény engedélyezve van-e a `chrome://extensions/` oldalon
-2. Nyisd meg a DevTools konzolt (F12) és keresd a "Searchable Select" kezdetű üzeneteket
-3. Frissítsd az oldalt (F5) a bővítmény újratöltése után
-4. Ellenőrizd, hogy vannak-e `<select>` elemek az oldalon
+1. Check that the extension is enabled on the `chrome://extensions/` page
+2. Open DevTools console (F12) and look for messages starting with "Searchable Select"
+3. Refresh the page (F5) after reloading the extension
+4. Check if there are `<select>` elements on the page
 
-## Jegyzet
+## Note
 
-- A bővítmény minden weboldalon működik (`<all_urls>`)
-- Nem gyűjt semmilyen adatot
-- Nem kommunikál külső szerverekkel
-- Teljesen offline működik
+- The extension works on all websites (`<all_urls>`)
+- Does not collect any data
+- Does not communicate with external servers
+- Works completely offline
 
-## Licenc
+## License
 
-Ez a projekt oktatási és demonstrációs célokra készült.
+This project was created for educational and demonstration purposes.
 
-## Változások története
+## Change history
 
-A teljes változási naplót lásd: [CHANGELOG.md](CHANGELOG.md)
+See the full changelog: [CHANGELOG.md](CHANGELOG.md)
 
-### v1.0.2 - Szín és szélesség beállítások (2025-01-25)
+### v1.0.2 - Color and width settings (2025-01-25)
 
-**Új funkciók:**
-- 🎨 Testreszabható kijelölési és hover szín a beállításokban
-- 📐 Szélesség mód választás (automatikus / eredeti szélesség)
-- 🔒 Szélesség cache - AJAX/JSF frissítés után is megmarad az eredeti méret
+**New features:**
+- 🎨 Customizable selection and hover color in settings
+- 📐 Width mode selection (automatic / original width)
+- 🔒 Width cache - original size preserved after AJAX/JSF refresh
 
-**Javítások:**
-- AJAX után eltűnő/rossz méretű select-ek javítva
-- Eredeti select elem elrejtése tökéletesítve
+**Fixes:**
+- Fixed disappearing/incorrectly sized selects after AJAX
+- Improved hiding of original select element
 
-### v1.0.1 - SlimSelect váltás (2025-01-25)
+### v1.0.1 - SlimSelect switch (2025-01-25)
 
-**Változások:**
-- Choices.js lecserélve SlimSelect v3.2.0-ra
-- Kék színséma
-- Kompaktabb megjelenés
+**Changes:**
+- Replaced Choices.js with SlimSelect v3.2.0
+- Blue color scheme
+- More compact appearance
 
-### v1.0.0 - Első hivatalos kiadás (2025-01-14)
+### v1.0.0 - First official release (2025-01-14)
 
-**Funkciók:**
-- Natív HTML select elemek automatikus kereshetővé tétele
-- 10 nyelv támogatása (hu, en, de, fr, es, it, pt, ru, ja, zh_CN)
-- Beállítások oldal domain szűréssel és wildcard támogatással
-- Debug mód fejlesztőknek
-- Dinamikus tartalom támogatás (AJAX, SPA-k)
-- iframe támogatás (korlátozásokkal)
-- Tiszta, modern UI
+**Features:**
+- Automatic conversion of native HTML select elements to searchable
+- Support for 10 languages (hu, en, de, fr, es, it, pt, ru, ja, zh_CN)
+- Settings page with domain filtering and wildcard support
+- Debug mode for developers
+- Dynamic content support (AJAX, SPAs)
+- iframe support (with limitations)
+- Clean, modern UI
 
-## Ismert problémák és megoldások
+## Known issues and solutions
 
-### Probléma: Select elemek nem konvertálódnak
-**Megoldás:**
-1. Ellenőrizd, hogy a bővítmény engedélyezve van
-2. Frissítsd az oldalt (F5)
-3. Nézd meg a Console-t (F12) hibák után
-4. Ellenőrizd a domain szűrés beállításokat
+### Issue: Select elements are not converted
+**Solution:**
+1. Check that the extension is enabled
+2. Refresh the page (F5)
+3. Check the Console (F12) for errors
+4. Check domain filtering settings
 
-### Probléma: AJAX-al betöltött select-ek nem működnek
-**Megoldás:**
-- A bővítmény automatikusan figyeli a DOM változásokat
-- JSF/RichFaces támogatás beépített
-- Ha mégsem működik, frissítsd a bővítményt
+### Issue: AJAX-loaded selects don't work
+**Solution:**
+- The extension automatically monitors DOM changes
+- JSF/RichFaces support is built-in
+- If it still doesn't work, update the extension
 
-### Probléma: Frame-ben lévő select-ek nem konvertálódnak
-**Megoldás:**
-- A v3.0.0+ verzió támogatja a frame-eket
-- SlimSelect automatikusan betöltődik minden frame-be
-- `all_frames: true` a manifestben engedélyezi ezt
+### Issue: Selects in frames are not converted
+**Solution:**
+- Version v3.0.0+ supports frames
+- SlimSelect is automatically loaded in all frames
+- `all_frames: true` in the manifest enables this
 
-### Probléma: Magasság vagy szélesség hibás
-**Megoldás:**
-- Ellenőrizd a `custom-styles.css` fájlt
-- A v3.2.0 optimalizált CSS-t használ
-- Testreszabhatod a `.ss-main` stílusokat
+### Issue: Height or width is incorrect
+**Solution:**
+- Check the `custom-styles.css` file
+- Version v3.2.0 uses optimized CSS
+- You can customize `.ss-main` styles
 
-## Források
+## Resources
 
-- [SlimSelect dokumentáció](https://slimselectjs.com/)
+- [SlimSelect documentation](https://slimselectjs.com/)
 - [SlimSelect GitHub](https://github.com/brianvoe/slim-select)
 - [Chrome Extension Docs](https://developer.chrome.com/docs/extensions/)
 - [Manifest V3 Migration Guide](https://developer.chrome.com/docs/extensions/mv3/intro/)

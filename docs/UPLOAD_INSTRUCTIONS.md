@@ -1,60 +1,60 @@
-# Chrome Web Store Feltöltési Útmutató
+# Chrome Web Store Upload Guide
 
-## ✅ Elkészült Fájlok
+## ✅ Completed Files
 
-### 📦 Bővítmény Package
-**Fájl**: `searchable-select-v1.0.0.zip` (63 KB)
+### 📦 Extension Package
+**File**: `searchable-select-v1.0.0.zip` (63 KB)
 
-**Tartalom:**
+**Contents:**
 - manifest.json
-- JavaScript fájlok (content.js, options.js, i18n-manager.js)
+- JavaScript files (content.js, options.js, i18n-manager.js)
 - HTML (options.html)
-- CSS fájlok (choices.min.css, custom-styles.css)
+- CSS files (choices.min.css, custom-styles.css)
 - Choices.js library (choices.min.js)
-- Ikonok (16x16, 48x48, 128x128)
-- 10 nyelv fordítása (_locales/)
+- Icons (16x16, 48x48, 128x128)
+- 10 language translations (_locales/)
 
-### 🖼️ Promóciós Képek (külön feltöltendők)
-- `icon128.png` - 128x128px (Store ikon)
-- `promo-tile-440x280.png` - 440x280px (Kis promóciós csempe)
-- `marquee-920x680.png` - 920x680px (Nagy promóciós csempe)
+### 🖼️ Promotional Images (to be uploaded separately)
+- `icon128.png` - 128x128px (Store icon)
+- `promo-tile-440x280.png` - 440x280px (Small promotional tile)
+- `marquee-920x680.png` - 920x680px (Large promotional tile)
 - `marquee-1400x560.png` - 1400x560px (Marquee banner)
 
-### 📸 Képernyőképek (külön feltöltendők)
-1. `screenshot1-1280x800.png` - Keresés működés közben
-2. `screenshot2-1280x800.png` - Beállítások oldal
-3. `screenshot3-1280x800.png` - Előtte/Utána összehasonlítás
+### 📸 Screenshots (to be uploaded separately)
+1. `screenshot1-1280x800.png` - Search in action
+2. `screenshot2-1280x800.png` - Settings page
+3. `screenshot3-1280x800.png` - Before/After comparison
 
-### 📄 Leírás
-- `STORE_DESCRIPTION.md` - Teljes Store leírás szövege
+### 📄 Description
+- `STORE_DESCRIPTION.md` - Complete Store description text
 
 ---
 
-## 🚀 Feltöltési Lépések
+## 🚀 Upload Steps
 
 ### 1. Chrome Web Store Developer Dashboard
-Menj ide: https://chrome.google.com/webstore/devconsole
+Go to: https://chrome.google.com/webstore/devconsole
 
-### 2. Új Bővítmény Létrehozása
-- Kattints a **"New Item"** gombra
-- Töltsd fel a **`searchable-select-v1.0.0.zip`** fájlt
-- Várj, amíg feltöltődik és validálódik
+### 2. Create New Extension
+- Click the **"New Item"** button
+- Upload **`searchable-select-v1.0.0.zip`**
+- Wait for it to upload and validate
 
-### 3. Store Listing - Alapadatok
+### 3. Store Listing - Basic Information
 
 **Product details:**
 - **Name**: Searchable Select
-- **Summary** (132 karakter max):
+- **Summary** (132 characters max):
   ```
   Transform classic HTML select elements into searchable dropdowns. Find options instantly with keyboard search on any website.
   ```
 
-### 4. Store Listing - Grafikák
+### 4. Store Listing - Graphics
 
 **Icon:**
-- Töltsd fel: `icon128.png`
+- Upload: `icon128.png`
 
-**Screenshots** (legalább 1, max 5 ajánlott):
+**Screenshots** (minimum 1, recommended 3-5):
 1. `screenshot1-1280x800.png`
    - Caption: "Instant search in HTML select boxes - Type to filter options in real-time"
 2. `screenshot2-1280x800.png`
@@ -62,14 +62,14 @@ Menj ide: https://chrome.google.com/webstore/devconsole
 3. `screenshot3-1280x800.png`
    - Caption: "Before vs After - See the difference Searchable Select makes"
 
-**Promotional images** (opcionális, de ajánlott):
+**Promotional images** (optional but recommended):
 - Small promo tile (440x280): `promo-tile-440x280.png`
 - Large promo tile (920x680): `marquee-920x680.png`
 - Marquee (1400x560): `marquee-1400x560.png`
 
-### 5. Store Listing - Leírás
+### 5. Store Listing - Description
 
-**Detailed description** (lásd `STORE_DESCRIPTION.md`):
+**Detailed description** (see `STORE_DESCRIPTION.md`):
 
 ```
 Make Classic HTML Dropdowns Searchable - Find Options Instantly!
@@ -93,7 +93,7 @@ Important: This extension works with traditional HTML select boxes (the standard
 - Works with native <select> tags only
 - No configuration needed
 
-[... további részletek a STORE_DESCRIPTION.md-ből]
+[... more details from STORE_DESCRIPTION.md]
 ```
 
 ### 6. Privacy Practices
@@ -119,7 +119,7 @@ This extension does not collect, store, or transmit any user data.
 All functionality runs entirely in your browser.
 ```
 
-**Privacy Policy** (kötelező URL vagy szöveg):
+**Privacy Policy** (required URL or text):
 ```
 Privacy Policy
 
@@ -152,7 +152,7 @@ Contact: izll81@gmail.com
 - ✅ Public
 
 **Distribution:**
-- ✅ All regions (vagy válaszd ki a kívánt országokat)
+- ✅ All regions (or select your desired countries)
 
 ### 8. Category & Language
 
@@ -165,61 +165,61 @@ Contact: izll81@gmail.com
 
 ### 9. Submit for Review
 
-- Ellenőrizd, hogy minden mező ki van töltve
-- Nézd át a preview-t
-- Kattints **"Submit for review"**
+- Verify all fields are filled out
+- Review the preview
+- Click **"Submit for review"**
 
 ---
 
-## ⏱️ Jóváhagyási Idő
+## ⏱️ Approval Time
 
-- Általában **1-3 munkanap**
-- Első alkalommal akár 5-7 nap is lehet
-- Email értesítést kapsz az eredményről
-
----
-
-## 📋 Gyakori Elutasítási Okok (és hogy elkerültük őket)
-
-✅ **Metadata quality** - Részletes leírás, képernyőképek ✓
-✅ **Privacy policy** - Egyértelmű adatvédelmi szabályzat ✓
-✅ **Permission justification** - Minden engedély indokolva ✓
-✅ **Functionality** - Működő, tesztelt kód ✓
-✅ **Icon quality** - Professzionális ikonok ✓
-✅ **Spam/Keyword stuffing** - Természetes leírás ✓
+- Typically **1-3 business days**
+- First time submissions can take 5-7 days
+- You'll receive an email notification with the result
 
 ---
 
-## 🔄 Frissítések
+## 📋 Common Rejection Reasons (and how we avoided them)
 
-Későbbi frissítésekhez:
-1. Növeld a verziószámot a `manifest.json`-ben
-2. Készíts új ZIP-et
+✅ **Metadata quality** - Detailed description, screenshots ✓
+✅ **Privacy policy** - Clear privacy policy ✓
+✅ **Permission justification** - All permissions justified ✓
+✅ **Functionality** - Working, tested code ✓
+✅ **Icon quality** - Professional icons ✓
+✅ **Spam/Keyword stuffing** - Natural description ✓
+
+---
+
+## 🔄 Updates
+
+For future updates:
+1. Increase the version number in `manifest.json`
+2. Create new ZIP
 3. Dashboard → Edit → Package → Upload new version
 4. Submit for review
 
 ---
 
-## 💡 Tippek
+## 💡 Tips
 
-- **Responsive support**: Gyorsan válaszolj a user review-kra
-- **Regular updates**: Javítsd a bugokat, add hozzá az új funkciókat
-- **Monitor analytics**: Nézd a telepítési/eltávolítási statisztikákat
-- **Promote**: Oszd meg social media-n, fórumokon
+- **Responsive support**: Respond quickly to user reviews
+- **Regular updates**: Fix bugs, add new features
+- **Monitor analytics**: Check installation/uninstallation statistics
+- **Promote**: Share on social media, forums
 
 ---
 
 ## 📞 Support
 
-Ha elutasítják:
-1. Olvasd el az elutasítás okát
-2. Javítsd a problémát
-3. Küldd be újra
+If rejected:
+1. Read the rejection reason
+2. Fix the problem
+3. Resubmit
 
-Ha kérdésed van:
+If you have questions:
 - Chrome Web Store Support
 - developer.chrome.com/docs/webstore/
 
 ---
 
-**Sok sikert a bővítmény publikálásához! 🚀**
+**Good luck with your extension publication! 🚀**

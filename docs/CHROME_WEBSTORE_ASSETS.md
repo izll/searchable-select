@@ -1,82 +1,82 @@
 # Chrome Web Store Assets - Searchable Select
 
-Ez a dokumentum tartalmazza az összes szükséges anyagot a Chrome Web Store-ba való feltöltéshez.
+This document contains all the necessary materials for uploading to the Chrome Web Store.
 
-## ✅ Elkészült Fájlok
+## ✅ Completed Files
 
-### 📱 Ikonok
-- ✅ `icon16.png` - 16x16px (böngésző eszköztár)
-- ✅ `icon48.png` - 48x48px (bővítmények oldal)
-- ✅ `icon128.png` - 128x128px (Chrome Web Store, bővítmény részletek)
-- ✅ `icon.svg` - Vektoros forrás fájl
+### 📱 Icons
+- ✅ `icon16.png` - 16x16px (browser toolbar)
+- ✅ `icon48.png` - 48x48px (extensions page)
+- ✅ `icon128.png` - 128x128px (Chrome Web Store, extension details)
+- ✅ `icon.svg` - Vector source file
 
-### 🖼️ Promóciós Képek
-- ✅ `promo-tile-440x280.png` - Kis promóciós csempe (440x280px)
-- ✅ `marquee-920x680.png` - Nagy promóciós csempe (920x680px)
+### 🖼️ Promotional Images
+- ✅ `promo-tile-440x280.png` - Small promotional tile (440x280px)
+- ✅ `marquee-920x680.png` - Large promotional tile (920x680px)
 - ✅ `marquee-1400x560.png` - Marquee banner (1400x560px)
 
-### 📸 Képernyőképek
-- ✅ `screenshot1-1280x800.png` - Főfunkció demonstráció (keresés dropdown-ban)
-- ✅ `screenshot2-1280x800.png` - Beállítások oldal
-- ✅ `screenshot3-1280x800.png` - Előtte/Utána összehasonlítás
+### 📸 Screenshots
+- ✅ `screenshot1-1280x800.png` - Main feature demonstration (search in dropdown)
+- ✅ `screenshot2-1280x800.png` - Settings page
+- ✅ `screenshot3-1280x800.png` - Before/After comparison
 
-### 📄 Dokumentáció
-- ✅ `STORE_DESCRIPTION.md` - Teljes leírás, címkék, kategória információkkal
+### 📄 Documentation
+- ✅ `STORE_DESCRIPTION.md` - Complete description with tags and category information
 
-## 📋 Chrome Web Store Követelmények
+## 📋 Chrome Web Store Requirements
 
-### Szükséges Képméretek:
-| Típus | Méret | Fájl | Státusz |
+### Required Image Sizes:
+| Type | Size | File | Status |
 |-------|-------|------|---------|
 | Icon | 128x128 | icon128.png | ✅ |
 | Small promo tile | 440x280 | promo-tile-440x280.png | ✅ |
 | Large promo tile | 920x680 | marquee-920x680.png | ✅ |
 | Marquee | 1400x560 | marquee-1400x560.png | ✅ |
-| Screenshots | 1280x800 vagy 640x400 | screenshot*.png | ✅ |
+| Screenshots | 1280x800 or 640x400 | screenshot*.png | ✅ |
 
-## 🎨 Design Jellemzők
+## 🎨 Design Characteristics
 
-### Színpaletta:
-- Fő gradient: `#667eea` → `#764ba2` (lila-rózsaszín)
+### Color Palette:
+- Main gradient: `#667eea` → `#764ba2` (purple-pink)
 - Accent gradient: `#f093fb` → `#f5576c`
-- Háttér: Fehér + világos szürke
-- Szöveg: `#333` (dark), `#666` (medium), `#999` (light)
+- Background: White + light gray
+- Text: `#333` (dark), `#666` (medium), `#999` (light)
 
-### Tipográfia:
+### Typography:
 - Font: Arial, sans-serif
 - Heading: 32-72px, bold
 - Body: 14-24px, regular/medium
 - Caption: 12-16px
 
-## 📝 Feltöltési Checklist
+## 📝 Upload Checklist
 
-### Alapinformációk:
-- [x] **Név**: Searchable Select
-- [x] **Rövid leírás**: Transform every dropdown menu into a searchable field
-- [x] **Kategória**: Productivity
-- [x] **Nyelv**: English (10+ locale támogatással)
+### Basic Information:
+- [x] **Name**: Searchable Select
+- [x] **Short description**: Transform every dropdown menu into a searchable field
+- [x] **Category**: Productivity
+- [x] **Language**: English (with 10+ locale support)
 
-### Képek:
+### Images:
 - [x] Icon (128x128)
-- [x] Kis promóciós csempe (440x280) - opcionális
-- [x] Nagy promóciós csempe (920x680) - opcionális
-- [x] Marquee (1400x560) - opcionális
-- [x] Legalább 1 képernyőkép (ajánlott 3-5)
+- [x] Small promotional tile (440x280) - optional
+- [x] Large promotional tile (920x680) - optional
+- [x] Marquee (1400x560) - optional
+- [x] At least 1 screenshot (recommended 3-5)
 
-### Leírások:
-- [x] Részletes leírás (lásd: STORE_DESCRIPTION.md)
-- [x] Címkék/kulcsszavak
-- [x] Adatvédelmi szabályzat szöveg
+### Descriptions:
+- [x] Detailed description (see: STORE_DESCRIPTION.md)
+- [x] Tags/keywords
+- [x] Privacy policy text
 
-### Technikai:
-- [x] manifest.json validált
-- [x] Összes nyelvi fájl validált (10 nyelv)
-- [x] Ikonok helyes méretben
-- [x] Permissions dokumentálva
+### Technical:
+- [x] manifest.json validated
+- [x] All language files validated (10 languages)
+- [x] Icons in correct sizes
+- [x] Permissions documented
 
-## 🌍 Támogatott Nyelvek
+## 🌍 Supported Languages
 
-A bővítmény 10 nyelven elérhető:
+The extension is available in 10 languages:
 1. 🇭🇺 Magyar (hu)
 2. 🇬🇧 English (en)
 3. 🇩🇪 Deutsch (de)
@@ -88,34 +88,34 @@ A bővítmény 10 nyelven elérhető:
 9. 🇯🇵 日本語 (ja)
 10. 🇨🇳 中文 (zh_CN)
 
-## 📊 Képernyőképek Leírása
+## 📊 Screenshots Description
 
-### Screenshot 1: Főfunkció
-**Fájl**: `screenshot1-1280x800.png`
-**Leírás**: "Instant search in any dropdown - Type to filter options in real-time"
-- Mutatja a keresés funkcionalitást egy országok listájában
-- Látható a begépelt "uni" szöveg és a szűrt eredmények
-- Kiemeli a 3 találatot: United States, United Kingdom, United Arab Emirates
+### Screenshot 1: Main Feature
+**File**: `screenshot1-1280x800.png`
+**Description**: "Instant search in any dropdown - Type to filter options in real-time"
+- Shows search functionality in a country list
+- Displays typed text "uni" and filtered results
+- Highlights 3 matches: United States, United Kingdom, United Arab Emirates
 
-### Screenshot 2: Beállítások
-**Fájl**: `screenshot2-1280x800.png`
-**Leírás**: "Customizable settings - Choose language, configure domains, enable debug mode"
-- Beállítások oldal teljes nézete
-- Nyelvválasztó dropdown
-- Domain szűrés toggle kapcsolók
-- Fejlesztői beállítások
+### Screenshot 2: Settings
+**File**: `screenshot2-1280x800.png`
+**Description**: "Customizable settings - Choose language, configure domains, enable debug mode"
+- Full settings page view
+- Language selector dropdown
+- Domain filtering toggle switches
+- Developer settings
 
-### Screenshot 3: Előtte/Utána
-**Fájl**: `screenshot3-1280x800.png`
-**Leírás**: "Before vs After - See the difference Searchable Select makes"
-- Oldalról összehasonlítás
-- Bal oldal: hagyományos dropdown problémái
-- Jobb oldal: kereshetővé tett dropdown előnyei
-- Vizuális kontraszttal
+### Screenshot 3: Before/After
+**File**: `screenshot3-1280x800.png`
+**Description**: "Before vs After - See the difference Searchable Select makes"
+- Side-by-side comparison
+- Left side: traditional dropdown problems
+- Right side: searchable dropdown advantages
+- Visual contrast
 
-## 🔐 Adatvédelmi Szabályzat
+## 🔐 Privacy Policy
 
-**Rövid verzió (Chrome Web Store-hoz):**
+**Short version (for Chrome Web Store):**
 
 ```
 Privacy Policy
@@ -140,9 +140,9 @@ All functionality runs entirely in your browser. Your privacy is fully protected
 Contact: izll81@gmail.com
 ```
 
-## 📦 Tömörítés Web Store-hoz
+## 📦 Packaging for Web Store
 
-A bővítmény feltöltéséhez készíts egy ZIP fájlt az alábbi fájlokkal:
+To upload the extension, create a ZIP file with the following files:
 
 ```bash
 zip -r searchable-select-v1.0.0.zip \
@@ -161,46 +161,46 @@ zip -r searchable-select-v1.0.0.zip \
   _locales/
 ```
 
-**NE tömörítsd bele:**
+**DO NOT include:**
 - .git/
 - node_modules/
-- *.svg forrás fájlok
-- demo-*.html fájlok
-- screenshot SVG fájlok
-- STORE_*.md dokumentációs fájlok
+- *.svg source files
+- demo-*.html files
+- screenshot SVG files
+- STORE_*.md documentation files
 
-## 🚀 Feltöltési Lépések
+## 🚀 Upload Steps
 
 1. **Chrome Web Store Developer Dashboard**: https://chrome.google.com/webstore/devconsole
-2. **Új bővítmény**: Kattints "New Item" gombra
-3. **ZIP feltöltés**: Töltsd fel a tömörített fájlt
+2. **New Extension**: Click the "New Item" button
+3. **ZIP Upload**: Upload the compressed file
 4. **Store Listing**:
-   - Töltsd fel az ikonokat
-   - Add meg a leírást (STORE_DESCRIPTION.md alapján)
-   - Töltsd fel a képernyőképeket
-   - Add meg a kategóriát (Productivity)
-5. **Privacy**: Illeszd be az adatvédelmi szabályzatot
-6. **Pricing & Distribution**: Ingyenes, minden régióban
-7. **Publish**: Küldd el jóváhagyásra
+   - Upload the icons
+   - Add the description (based on STORE_DESCRIPTION.md)
+   - Upload the screenshots
+   - Specify the category (Productivity)
+5. **Privacy**: Insert the privacy policy
+6. **Pricing & Distribution**: Free, all regions
+7. **Publish**: Submit for review
 
-## ✅ Végső Ellenőrzés
+## ✅ Final Check
 
-- [x] Manifest.json valid és V3 kompatibilis
-- [x] Összes JSON nyelvi fájl valid
-- [x] Ikonok megfelelő méretben és formátumban
-- [x] Képernyőképek informatívak és professzionálisak
-- [x] Leírás pontos és vonzó
-- [x] Nincs hardcoded szöveg, minden i18n-nel kezelve
-- [x] Nincs külső függőség (minden lokális)
-- [x] Adatvédelmi szabályzat egyértelmű
+- [x] Manifest.json is valid and V3 compatible
+- [x] All JSON language files are valid
+- [x] Icons in appropriate sizes and formats
+- [x] Screenshots are informative and professional
+- [x] Description is accurate and attractive
+- [x] No hardcoded text, everything handled with i18n
+- [x] No external dependencies (everything local)
+- [x] Privacy policy is clear
 
-## 📞 Kapcsolat
+## 📞 Contact
 
 - **Email**: izll81@gmail.com
-- **Támogatás**: PayPal link a beállítások oldalon
+- **Support**: PayPal link on settings page
 
 ---
 
-**Státusz**: ✅ KÉSZ A FELTÖLTÉSRE
+**Status**: ✅ READY FOR UPLOAD
 
-Minden szükséges anyag elkészült és készen áll a Chrome Web Store-ba való feltöltésre!
+All necessary materials are completed and ready for upload to the Chrome Web Store!
