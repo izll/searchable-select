@@ -4,7 +4,7 @@ Egy egyszerű Chrome bővítmény, ami automatikusan kereshetővé konvertálja 
 
 ## Verzió
 
-**v1.0.1** - SlimSelect v3.2.0 könyvtárra váltás
+**v1.0.2** - Szín és szélesség beállítások, AJAX javítások
 
 Részletes változások: [CHANGELOG.md](CHANGELOG.md)
 
@@ -12,12 +12,14 @@ Részletes változások: [CHANGELOG.md](CHANGELOG.md)
 
 - ✅ Automatikusan felismeri és konvertálja az összes `<select>` elemet
 - 🔍 Keresés támogatás minden select-ben
-- ⚡ Támogatja a dinamikusan hozzáadott select elemeket
+- ⚡ Támogatja a dinamikusan hozzáadott select elemeket (AJAX/JSF)
 - 📋 Működik egyszerű és többszörös select-ekkel
 - 📂 Támogatja a csoportosított opciókat (optgroup)
-- 🇭🇺 Magyar nyelvű felület
+- 🌍 **10 nyelv támogatása** (hu, en, de, fr, es, it, pt, ru, ja, zh_CN)
 - ⚙️ **Beállítások oldal domain szűréssel**
 - 🎯 **Wildcard támogatás domain megadáshoz** (pl. `*.google.com`)
+- 🎨 **Testreszabható kijelölési szín**
+- 📐 **Szélesség mód** - automatikus vagy eredeti szélesség
 
 ## Telepítés
 
@@ -211,6 +213,24 @@ Ez a projekt oktatási és demonstrációs célokra készült.
 
 A teljes változási naplót lásd: [CHANGELOG.md](CHANGELOG.md)
 
+### v1.0.2 - Szín és szélesség beállítások (2025-01-25)
+
+**Új funkciók:**
+- 🎨 Testreszabható kijelölési és hover szín a beállításokban
+- 📐 Szélesség mód választás (automatikus / eredeti szélesség)
+- 🔒 Szélesség cache - AJAX/JSF frissítés után is megmarad az eredeti méret
+
+**Javítások:**
+- AJAX után eltűnő/rossz méretű select-ek javítva
+- Eredeti select elem elrejtése tökéletesítve
+
+### v1.0.1 - SlimSelect váltás (2025-01-25)
+
+**Változások:**
+- Choices.js lecserélve SlimSelect v3.2.0-ra
+- Kék színséma
+- Kompaktabb megjelenés
+
 ### v1.0.0 - Első hivatalos kiadás (2025-01-14)
 
 **Funkciók:**
@@ -221,14 +241,6 @@ A teljes változási naplót lásd: [CHANGELOG.md](CHANGELOG.md)
 - Dinamikus tartalom támogatás (AJAX, SPA-k)
 - iframe támogatás (korlátozásokkal)
 - Tiszta, modern UI
-
-**Technikai:**
-- Chrome Extension Manifest V3
-- SlimSelect v3.2.0
-- MutationObserver dinamikus elemek figyeléséhez
-- Chrome Storage Sync API
-- WeakSet memória-hatékony követéshez
-- Teljes i18n támogatás
 
 ## Ismert problémák és megoldások
 
